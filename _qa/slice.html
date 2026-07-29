@@ -1,0 +1,51 @@
+<!doctype html>
+<!-- 개발용 : index.html 을 정상 뷰포트(iframe)로 띄운 뒤 지정 위치로 스크롤해 화면을 잘라 보는 도구. 배포 시 _qa 폴더 제외 -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>QA slice</title>
+<style>
+	html,body{margin:0; padding:0; background:#fff; overflow:hidden}
+	#frame{display:block; border:0; width:100vw; height:100vh}
+	/* ?w= 로 폭을 고정하면 그 폭이 그대로 내부 페이지의 레이아웃 뷰포트가 된다 (모바일 검증용) */
+	body.fixed-w{background:#888}
+	body.fixed-w #frame{width:var(--fw); margin:0 auto}
+</style>
+</head>
+<body>
+<iframe id="frame"></iframe>
+<script>
+	var params = new URLSearchParams(location.search);
+	var frame = document.getElementById('frame');
+	/* ?p=about/overview.html 로 대상 페이지 지정 (기본값 index.html) */
+	frame.src = '../' + (params.get('p') || 'index.html');
+	var fw = parseInt(params.get('w') || '0', 10);
+	if (fw > 0) {
+		document.body.classList.add('fixed-w');
+		document.body.style.setProperty('--fw', fw + 'px');
+	}
+	frame.addEventListener('load', function () {
+		var win = frame.contentWindow;
+		var doc = win.document;
+
+		function targetY() {
+			var sel = params.get('sel');
+			var off = parseInt(params.get('off') || '0', 10);
+			if (sel) {
+				var el = doc.querySelector(sel);
+				if (el) return Math.max(0, el.getBoundingClientRect().top + win.scrollY + off);
+			}
+			return parseInt(params.get('y') || '0', 10);
+		}
+		/* 스크롤 모션이 트리거되도록 한 번 훑고 목표 위치로 이동 */
+		var docH = doc.documentElement.scrollHeight;
+		var step = Math.max(200, win.innerHeight * 0.6);
+		for (var p = 0; p <= docH; p += step) win.scrollTo(0, p);
+		win.scrollTo(0, targetY());
+		/* 카운트업/트랜지션이 끝난 뒤 위치 재고정 */
+		setTimeout(function () { win.scrollTo(0, targetY()); }, 1200);
+		setTimeout(function () { win.scrollTo(0, targetY()); }, 2600);
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,416 @@
+@charset "utf-8";
+/* ========================================================
+ * DAEKUN MS — main.css (메인 페이지)
+======================================================== */
+
+/* ========================================================
+ * MAIN VISUAL
+ * (섹션 타이틀 / 버튼 / 스크롤 모션 등 공용 컴포넌트는 common.css)
+======================================================== */
+#mainVisual{position:relative; width:100%; height:100vh; height:100svh; min-height:76rem; overflow:hidden; background-color:var(--navy-deep)}
+.main-visual-con,.main-visual-item{position:absolute; inset:0; height:100%}
+.main-visual-item{opacity:0; visibility:hidden; transition:opacity 1.4s ease-in-out}
+.main-visual-item.active-item{opacity:1; visibility:visible; z-index:2}
+.main-visual-img-cover{position:absolute; inset:var(--area-padding); overflow:hidden; border-radius:4.5rem}
+.main-visual-img{
+	position:absolute; top:50%; left:50%; width:calc(100% + 12rem); height:calc(100% + 12rem);
+	transform:translate(-50%,-50%) scale(1);
+}
+.active-item .main-visual-img{animation:visual-zoom 8s 0s ease-in-out both}
+@keyframes visual-zoom{
+	0%{transform:translate(-50%,-50%) scale(1.1)}
+	100%{transform:translate(-50%,-50%) scale(1.02)}
+}
+.main-visual-img-cover:after{
+	position:absolute; content:''; inset:0; z-index:1;
+	background:linear-gradient(180deg, rgba(12,19,41,0.62) 0%, rgba(12,19,41,0.28) 42%, rgba(12,19,41,0.78) 100%);
+}
+.main-visual-txt-con{position:absolute; inset:0; z-index:3; display:flex; align-items:center; justify-content:center}
+.main-visual-txt-box{width:100%; text-align:center; padding-bottom:4rem; box-sizing:border-box}
+.main-visual-txt1{
+	font-family:var(--font-en); font-size:7.6rem; font-weight:300; letter-spacing:-0.02em;
+	color:#fff; line-height:1.16;
+}
+.main-visual-txt1 b{font-weight:600}
+.main-visual-txt2{
+	margin-top:2.4rem; font-size:2rem; font-weight:400; letter-spacing:-0.03em;
+	color:rgba(255,255,255,0.88); line-height:1.6;
+}
+.active-item .main-visual-txt1{animation:visual-txt-up 1.4s 0.1s cubic-bezier(0.4,0,0.2,1) both}
+.active-item .main-visual-txt2{animation:visual-txt-fade 1.4s 0.7s cubic-bezier(0.4,0,0.2,1) both}
+@keyframes visual-txt-up{
+	from{opacity:0; transform:translateY(2.6rem)}
+	to{opacity:1; transform:translateY(0)}
+}
+@keyframes visual-txt-fade{
+	from{opacity:0; transform:translateY(1.6rem)}
+	to{opacity:1; transform:translateY(0)}
+}
+
+/* 비주얼 하단 : 인디케이터 + 스크롤 아이콘 */
+.main-visual-util{
+	position:absolute; left:0; bottom:8.5rem; z-index:5; width:100%;
+	display:flex; flex-direction:column; align-items:center; gap:3rem;
+}
+.main-visual-paging{display:flex; align-items:center; gap:1.2rem}
+.main-visual-paging button{
+	position:relative; width:3.2rem; height:0.3rem; border-radius:0.3rem;
+	background-color:rgba(255,255,255,0.28); transition:var(--transition-custom);
+}
+.main-visual-paging button.on{width:6.4rem; background-color:#fff}
+.main-scroll-icon{
+	position:relative; width:1rem; height:2.2rem; border-radius:3rem;
+	background-color:rgba(255,255,255,0.22); overflow:hidden;
+}
+.main-scroll-icon .scroll-dot{
+	position:absolute; left:50%; width:0.4rem; height:0.4rem; margin-left:-0.2rem;
+	border-radius:50%; background-color:#fff; animation:upDown 1.6s ease-in-out infinite;
+}
+@keyframes upDown{
+	0%{opacity:0; top:calc(50% - 0.8rem)}
+	12%{opacity:1; top:calc(50% - 0.8rem)}
+	80%{opacity:1; top:calc(50% + 0.4rem)}
+	100%{opacity:0; top:calc(50% + 0.4rem)}
+}
+
+/* ========================================================
+ * SECTION 01 — ABOUT
+======================================================== */
+#secAbout{padding:17rem 0 15rem; overflow:hidden}
+.about-inner{position:relative}
+.about-copy{position:relative; z-index:1}
+.about-copy .line{
+	font-size:5rem; font-weight:700; letter-spacing:-0.05em; line-height:1.42;
+	color:var(--navy);
+}
+.js-scroll .about-copy .line{
+	color:rgba(26,32,51,0.16);
+	background:linear-gradient(to right, var(--navy), var(--navy)) no-repeat;
+	-webkit-background-clip:text; background-clip:text; background-size:0% 100%;
+	transition:background-size 1.1s ease-out;
+}
+.about-copy .line.on{background-size:100% 100%}
+.about-copy .line:nth-child(2){transition-delay:0.18s}
+.about-copy .line:nth-child(3){transition-delay:0.36s}
+
+.about-detail{display:flex; gap:8rem; margin-top:7rem; padding-top:6rem; border-top:1px solid var(--line)}
+.about-detail .left{width:34%; flex:none}
+.about-detail .left .label{
+	font-family:var(--font-en); font-size:1.6rem; font-weight:600; letter-spacing:0.06em;
+	text-transform:uppercase; color:var(--text-mute);
+}
+.about-detail .left .name{margin-top:1.4rem; font-size:2.6rem; font-weight:700; letter-spacing:-0.04em; color:var(--navy); line-height:1.4}
+.about-detail .right{flex:1}
+.about-detail .right p{font-size:1.8rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-sub); line-height:1.78}
+.about-detail .right p + p{margin-top:1.8rem}
+
+/* 데코 : 우측 상단 원형 그라디언트 */
+.about-deco{
+	position:absolute; top:-16rem; right:-14rem; width:46rem; height:46rem; border-radius:50%;
+	background:radial-gradient(circle at 50% 50%, rgba(62,110,175,0.16) 0%, rgba(62,110,175,0) 66%);
+	pointer-events:none;
+}
+
+/* ========================================================
+ * SECTION 02 — STATS (다크 밴드)
+======================================================== */
+#secStats{padding:10rem 0}
+.stats-box{display:flex; align-items:center; gap:5rem}
+.stats-list{
+	display:flex; justify-content:space-between; flex:1;
+	padding-right:4%; box-sizing:border-box;
+}
+.stats-list > li{position:relative; transition:var(--transition-custom2)}
+.js-scroll .stats-list > li{opacity:0; transform:translateX(-3rem)}
+.stats-box.animated .stats-list > li{opacity:1; transform:none}
+.stats-box.animated .stats-list > li:nth-child(2){transition-delay:0.15s}
+.stats-box.animated .stats-list > li:nth-child(3){transition-delay:0.3s}
+.stats-box.animated .stats-list > li:nth-child(4){transition-delay:0.45s}
+.stats-list .label{font-size:1.7rem; font-weight:500; letter-spacing:-0.03em; color:rgba(255,255,255,0.62); line-height:1.4}
+.stats-list .number{
+	display:flex; align-items:flex-end; margin-top:1.6rem;
+	font-family:var(--font-en); font-size:8.6rem; font-weight:300; letter-spacing:-0.03em;
+	color:#fff; line-height:1;
+}
+.stats-list .number .unit{font-size:3rem; font-weight:400; margin:0 0 1.2rem 0.4rem; color:rgba(255,255,255,0.72)}
+.stats-list .number.type-txt{font-size:5.6rem; font-weight:400; letter-spacing:-0.02em}
+
+.stats-since{
+	position:relative; flex:none; display:flex; flex-direction:column; justify-content:space-between;
+	width:30rem; height:30rem; padding:4rem; border-radius:3.4rem; box-sizing:border-box;
+	background-color:var(--steel);
+	transition:var(--transition-custom2); transition-delay:0.6s;
+}
+.js-scroll .stats-since{opacity:0; transform:translateX(-3rem)}
+.stats-box.animated .stats-since{opacity:1; transform:none}
+.stats-since:hover{background-color:var(--steel-light)}
+.stats-since .since{font-family:var(--font-en); font-size:6.8rem; font-weight:300; letter-spacing:-0.03em; color:#fff; line-height:1.08}
+.stats-since .since span{display:block; font-size:2.8rem; font-weight:500; color:rgba(255,255,255,0.66)}
+.stats-since .go{display:flex; align-items:center; gap:0.8rem; font-size:1.7rem; font-weight:600; letter-spacing:-0.03em; color:#fff}
+.stats-since .go:after{
+	content:''; width:0.8rem; height:0.8rem; margin-left:0.3rem;
+	border-top:2px solid #fff; border-right:2px solid #fff; transform:rotate(45deg);
+}
+
+/* ========================================================
+ * SECTION 03 — BUSINESS
+======================================================== */
+#secBusiness{padding:16rem 0}
+.business-con{display:flex; gap:8rem}
+.business-con .left-con{width:38%; flex:none}
+.business-con .right-con{flex:1}
+.business-list{display:flex; flex-direction:column; gap:2rem}
+.business-list > li{
+	position:relative; border:1px solid var(--line); border-radius:2.6rem; overflow:hidden;
+	background-color:#fff; transition:var(--transition-custom);
+}
+.business-list > li:hover{border-color:var(--navy); box-shadow:0 1.6rem 4rem rgba(19,28,59,0.08)}
+.business-list > li a{display:flex; align-items:center; gap:4rem; padding:4.4rem 4rem}
+.business-list .num{
+	flex:none; font-family:var(--font-en); font-size:1.6rem; font-weight:600; letter-spacing:0.06em;
+	color:var(--steel);
+}
+.business-list .txt-box{flex:1}
+.business-list .txt-box strong{display:block; font-size:2.8rem; font-weight:700; letter-spacing:-0.045em; color:var(--navy); line-height:1.3}
+.business-list .txt-box .en{
+	display:block; margin-top:0.6rem; font-family:var(--font-en);
+	font-size:1.6rem; font-weight:500; letter-spacing:0.02em; color:var(--text-mute);
+}
+.business-list .txt-box p{margin-top:1.6rem; font-size:1.7rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-sub); line-height:1.68}
+.business-list .arrow{
+	flex:none; display:flex; align-items:center; justify-content:center;
+	width:5.4rem; height:5.4rem; border-radius:50%; background-color:var(--bg-grey);
+	transition:var(--transition-custom);
+}
+.business-list .arrow:before{
+	content:''; width:0.9rem; height:0.9rem; margin-left:-0.2rem;
+	border-top:2px solid var(--navy); border-right:2px solid var(--navy); transform:rotate(45deg);
+	transition:var(--transition-custom);
+}
+.business-list > li:hover .arrow{background-color:var(--navy)}
+.business-list > li:hover .arrow:before{border-color:#fff}
+
+/* 소싱 강점 태그 */
+.business-tag-list{display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:3.4rem}
+.business-tag-list span{
+	display:inline-block; padding:0.8rem 1.6rem; border-radius:3rem;
+	background-color:var(--bg-grey); font-size:1.5rem; font-weight:500; letter-spacing:-0.02em; color:var(--text-sub);
+}
+
+/* ========================================================
+ * SECTION 04 — NETWORK (다크)
+======================================================== */
+#secNetwork{padding:16rem 0 17rem; background-color:var(--navy); overflow:hidden}
+#secNetwork .sec-head{text-align:center; margin-bottom:9rem}
+#secNetwork .sec-txt{margin-left:auto; margin-right:auto; max-width:80rem}
+
+/* 삼국간 제조무역 흐름 */
+.flow-con{display:flex; align-items:stretch; gap:2rem}
+.flow-step{
+	position:relative; flex:1; padding:4.2rem 3.4rem; box-sizing:border-box;
+	border:1px solid var(--navy-line); border-radius:2.6rem;
+	background-color:rgba(255,255,255,0.04); backdrop-filter:blur(1rem);
+}
+.flow-step + .flow-step:before{
+	position:absolute; content:''; top:50%; left:-2.4rem; width:0.9rem; height:0.9rem;
+	border-top:2px solid rgba(255,255,255,0.34); border-right:2px solid rgba(255,255,255,0.34);
+	transform:translateY(-50%) rotate(45deg);
+}
+.flow-step .step-no{
+	font-family:var(--font-en); font-size:1.5rem; font-weight:600; letter-spacing:0.08em;
+	color:var(--steel-light);
+}
+.flow-step .step-tit{margin-top:1.4rem; font-size:2.4rem; font-weight:700; letter-spacing:-0.04em; color:#fff; line-height:1.35}
+.flow-step .step-txt{margin-top:1.4rem; font-size:1.6rem; font-weight:400; letter-spacing:-0.03em; color:rgba(255,255,255,0.56); line-height:1.66}
+.flow-step .step-country{display:flex; flex-wrap:wrap; gap:0.7rem; margin-top:2.6rem}
+.flow-step .step-country span{
+	display:inline-block; padding:0.6rem 1.3rem; border-radius:3rem;
+	background-color:rgba(255,255,255,0.08); font-family:var(--font-en);
+	font-size:1.4rem; font-weight:500; letter-spacing:0.02em; color:rgba(255,255,255,0.78);
+}
+
+/* 생산 거점 테이블 */
+.network-factory{margin-top:8rem}
+.network-factory .factory-head{display:flex; align-items:flex-end; justify-content:space-between; gap:3rem; margin-bottom:3rem}
+.network-factory .factory-head h3{font-size:2.6rem; font-weight:700; letter-spacing:-0.04em; color:#fff}
+.network-factory .factory-head p{font-size:1.6rem; font-weight:400; color:rgba(255,255,255,0.5)}
+.factory-list{display:flex; flex-wrap:wrap; gap:2rem}
+.factory-list > li{
+	display:flex; flex-direction:column;
+	width:calc(33.333% - 1.34rem); padding:3.4rem 3rem; box-sizing:border-box;
+	border:1px solid var(--navy-line); border-radius:2.2rem;
+	background-color:rgba(255,255,255,0.03); transition:var(--transition-custom);
+}
+/* 본사 카드 : 남은 2칸을 채워 그리드를 마감 */
+.factory-list > li.hq{width:calc(66.666% - 0.66rem); background-color:rgba(62,110,175,0.1)}
+.factory-list > li:hover{background-color:rgba(62,110,175,0.16); border-color:rgba(92,143,208,0.5)}
+.factory-list .country{
+	display:flex; align-items:baseline; gap:1rem; padding-bottom:1.8rem;
+	border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.factory-list .country strong{font-size:2rem; font-weight:700; letter-spacing:-0.03em; color:#fff}
+.factory-list .country .city{font-family:var(--font-en); font-size:1.45rem; font-weight:500; letter-spacing:0.03em; color:var(--steel-light)}
+.factory-list .plant{margin-top:1.8rem}
+.factory-list .plant li{
+	position:relative; padding-left:1.2rem; font-size:1.55rem; font-weight:400;
+	letter-spacing:-0.02em; color:rgba(255,255,255,0.74); line-height:1.65;
+}
+.factory-list .plant li:before{position:absolute; content:''; top:1.1rem; left:0; width:0.4rem; height:0.4rem; border-radius:50%; background-color:rgba(255,255,255,0.36)}
+.factory-list .cate{
+	display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:auto; padding-top:1.8rem;
+	border-top:1px dashed rgba(255,255,255,0.12);
+}
+.factory-list .plant{margin-bottom:2rem}
+.factory-list .cate span{
+	display:inline-block; padding:0.5rem 1.1rem; border-radius:0.6rem;
+	background-color:rgba(255,255,255,0.07); font-size:1.35rem; font-weight:500;
+	letter-spacing:-0.01em; color:rgba(255,255,255,0.62);
+}
+.network-note{
+	margin-top:3.4rem; font-size:1.5rem; font-weight:400; letter-spacing:-0.02em;
+	color:rgba(255,255,255,0.4); text-align:right;
+}
+
+/* ========================================================
+ * SECTION 05 — PRODUCT
+======================================================== */
+#secProduct{padding:16rem 0}
+#secProduct .sec-head{display:flex; align-items:flex-end; justify-content:space-between; gap:6rem; margin-bottom:6rem}
+#secProduct .sec-head .sec-txt{max-width:52rem; margin-top:0}
+.product-list{display:flex; flex-wrap:wrap; gap:3rem 2.4rem}
+.product-list > li{width:calc(25% - 1.8rem)}
+.product-list > li a{display:block}
+.product-list .thumb{
+	position:relative; width:100%; aspect-ratio:3/4; border-radius:2.2rem; overflow:hidden;
+}
+.product-list .thumb .slot-spec{left:1.4rem; bottom:1.4rem; font-size:1.2rem; padding:0.6rem 1.1rem}
+.product-list .thumb:after{
+	position:absolute; content:''; inset:0;
+	background:linear-gradient(180deg, rgba(12,19,41,0) 46%, rgba(12,19,41,0.5) 100%);
+	transition:var(--transition-custom);
+}
+.product-list > li a:hover .thumb:after{background:linear-gradient(180deg, rgba(62,110,175,0.24) 0%, rgba(12,19,41,0.62) 100%)}
+.product-list .tit-box{margin-top:2.2rem}
+.product-list .tit-box strong{display:block; font-size:2.2rem; font-weight:700; letter-spacing:-0.04em; color:var(--navy); line-height:1.35}
+.product-list .tit-box .en{
+	display:block; margin-top:0.5rem; font-family:var(--font-en);
+	font-size:1.5rem; font-weight:500; letter-spacing:0.02em; color:var(--text-mute);
+}
+.product-list .tit-box p{margin-top:1.2rem; font-size:1.6rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-sub); line-height:1.6}
+
+/* ========================================================
+ * SECTION 06 — QUALITY (다크)
+======================================================== */
+#secQuality{padding:16rem 0 17rem; background-color:var(--navy-deep)}
+.quality-top{display:flex; gap:8rem; align-items:center}
+.quality-top .left-con{width:44%; flex:none}
+.quality-top .right-con{flex:1}
+
+/* Zero Defect 피라미드 */
+.qa-pyramid{display:flex; flex-direction:column; align-items:center; gap:1.2rem}
+.qa-pyramid > li{
+	display:flex; flex-direction:column; align-items:center; justify-content:center;
+	box-sizing:border-box; text-align:center; border-radius:1.6rem;
+	border:1px solid var(--navy-line); background-color:rgba(255,255,255,0.04);
+}
+.qa-pyramid > li .step-en{
+	font-family:var(--font-en); font-size:1.35rem; font-weight:600; letter-spacing:0.08em;
+	color:rgba(255,255,255,0.4);
+}
+.qa-pyramid > li strong{margin-top:0.5rem; font-size:2.1rem; font-weight:700; letter-spacing:-0.03em; color:#fff}
+.qa-pyramid .lv3{width:34%; height:11rem; background-color:var(--steel); border-color:var(--steel)}
+.qa-pyramid .lv3 .step-en{color:rgba(255,255,255,0.72)}
+.qa-pyramid .lv3 strong{font-size:2.6rem}
+.qa-pyramid .lv2{width:64%; height:9.6rem}
+.qa-pyramid .lv1{width:100%; height:9.6rem}
+
+/* QA 활동 키워드 */
+.qa-keyword{display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:3.6rem}
+.qa-keyword span{
+	display:inline-block; padding:0.9rem 1.7rem; border-radius:3rem;
+	border:1px solid var(--navy-line); background-color:rgba(255,255,255,0.04);
+	font-size:1.5rem; font-weight:500; letter-spacing:-0.02em; color:rgba(255,255,255,0.72);
+}
+
+/* SOP 프로세스 */
+.qa-process{margin-top:9rem; padding-top:7rem; border-top:1px solid rgba(255,255,255,0.1)}
+.qa-process h4{font-size:2.6rem; font-weight:700; letter-spacing:-0.04em; color:#fff; margin-bottom:3.4rem}
+.qa-process h4 .en{
+	display:block; margin-top:0.6rem; font-family:var(--font-en);
+	font-size:1.6rem; font-weight:500; letter-spacing:0.04em; color:var(--steel-light);
+}
+.qa-step-list{display:flex; flex-wrap:wrap; gap:1.6rem}
+.qa-step-list > li{
+	position:relative; flex:1; min-width:16rem; padding:3rem 2.2rem; box-sizing:border-box;
+	border-radius:1.8rem; border:1px solid var(--navy-line); background-color:rgba(255,255,255,0.03);
+}
+.qa-step-list > li:before{
+	position:absolute; content:''; top:0; left:0; width:100%; height:2px;
+	background-color:var(--steel-light); border-radius:2px; transition:width 0.9s ease-in-out;
+}
+.js-scroll .qa-step-list > li:before{width:0}
+.qa-step-list.animated > li:before{width:100%}
+.qa-step-list.animated > li:nth-child(2):before{transition-delay:0.12s}
+.qa-step-list.animated > li:nth-child(3):before{transition-delay:0.24s}
+.qa-step-list.animated > li:nth-child(4):before{transition-delay:0.36s}
+.qa-step-list.animated > li:nth-child(5):before{transition-delay:0.48s}
+.qa-step-list.animated > li:nth-child(6):before{transition-delay:0.6s}
+.qa-step-list .no{font-family:var(--font-en); font-size:1.4rem; font-weight:600; letter-spacing:0.06em; color:rgba(255,255,255,0.34)}
+.qa-step-list strong{display:block; margin-top:1.2rem; font-size:1.8rem; font-weight:600; letter-spacing:-0.035em; color:#fff; line-height:1.45}
+.qa-step-list .en{
+	display:block; margin-top:0.7rem; font-family:var(--font-en);
+	font-size:1.35rem; font-weight:500; letter-spacing:0.02em; color:rgba(255,255,255,0.42); line-height:1.4;
+}
+
+/* ========================================================
+ * SECTION 07 — CUSTOMERS
+======================================================== */
+#secCustomer{padding:15rem 0; background-color:var(--bg-grey)}
+#secCustomer .sec-head{text-align:center; margin-bottom:6.5rem}
+#secCustomer .sec-txt{margin-left:auto; margin-right:auto; max-width:74rem}
+.customer-group + .customer-group{margin-top:4.6rem}
+.customer-group .group-tit{
+	display:flex; align-items:center; gap:1.6rem; margin-bottom:2.2rem;
+	font-family:var(--font-en); font-size:1.55rem; font-weight:600; letter-spacing:0.06em;
+	text-transform:uppercase; color:var(--text-mute);
+}
+.customer-group .group-tit:after{content:''; flex:1; height:1px; background-color:var(--line)}
+.customer-list{display:grid; grid-template-columns:repeat(5,1fr); gap:1.4rem}
+.customer-list > li{
+	display:flex; align-items:center; justify-content:center;
+	height:10rem; padding:0 2rem; box-sizing:border-box;
+	background-color:#fff; border:1px solid var(--line); border-radius:1.4rem;
+	transition:var(--transition-custom);
+}
+.customer-list > li:hover{border-color:var(--navy); transform:translateY(-0.4rem)}
+.customer-list .brand{
+	font-family:var(--font-en); font-size:2rem; font-weight:600; letter-spacing:0.06em;
+	text-align:center; color:var(--navy); line-height:1.3;
+}
+.customer-list .brand .sub{display:block; margin-top:0.4rem; font-size:1.3rem; font-weight:500; letter-spacing:0.02em; color:var(--text-mute)}
+
+/* ========================================================
+ * SECTION 08 — CONTACT
+======================================================== */
+#secContact{padding:15rem 0}
+.contact-box{
+	position:relative; overflow:hidden; border-radius:4rem; padding:9rem 8rem;
+	background-color:var(--navy);
+	background-image:
+		radial-gradient(80% 120% at 88% 10%, rgba(62,110,175,0.4) 0%, rgba(62,110,175,0) 62%),
+		linear-gradient(120deg, #131C3B 0%, #16213F 60%, #0C1329 100%);
+}
+.contact-box .contact-inner{position:relative; z-index:1; display:flex; align-items:center; justify-content:space-between; gap:6rem}
+.contact-box .sec-sub-tit{color:var(--steel-light)}
+.contact-box .sec-tit{color:#fff}
+.contact-box .sec-txt{color:rgba(255,255,255,0.62); max-width:52rem}
+.contact-info{flex:none; width:36rem}
+.contact-info dl{display:flex; flex-direction:column; gap:0.4rem; padding:2.2rem 0; border-bottom:1px solid rgba(255,255,255,0.14)}
+.contact-info dl:first-child{padding-top:0}
+.contact-info dt{
+	font-family:var(--font-en); font-size:1.4rem; font-weight:600; letter-spacing:0.08em;
+	text-transform:uppercase; color:rgba(255,255,255,0.45);
+}
+.contact-info dd{font-size:1.8rem; font-weight:500; letter-spacing:-0.02em; color:#fff; line-height:1.5}
+.contact-info dd a:hover{text-decoration:underline}
+.contact-info .cm-btn{margin-top:3.4rem; width:100%}
