@@ -80,6 +80,15 @@
 								</ul>
 							</div>
 						</li>
+						<li data-menu="news">
+							<a href="../news/notice.html" class="font-en">News</a>
+							<div class="gnb-2dep">
+								<ul>
+									<li><a href="../news/notice.html">공지사항</a></li>
+									<li><a href="../news/archive.html">자료실</a></li>
+								</ul>
+							</div>
+						</li>
 						<li data-menu="contact">
 							<a href="../contact/inquiry.html" class="font-en">Contact</a>
 							<div class="gnb-2dep">
@@ -141,7 +150,7 @@
 					<div class="form-left" data-scroll="fade-up">
 						<!-- data-endpoint : 접수 서버 주소. 비어 있으면 메일 안내로 대체된다 -->
 						<!-- novalidate : 브라우저 기본 검증 대신 sub.js 의 검증·에러 표시를 사용한다 -->
-						<form id="inquiryForm" method="post" enctype="multipart/form-data" action="" data-endpoint="" novalidate>
+						<form id="inquiryForm" method="post" enctype="multipart/form-data" action="" data-endpoint="/api/inquiry" novalidate>
 							<div class="form-list">
 								<div class="form-row">
 									<label class="form-label" for="fCompany">회사명<span class="req">*</span></label>

@@ -6,3 +6,10 @@ desktop.ini
 # 편집기
 *.swp
 *~
+
+# ── 관리자 (내 PC 전용 자료) ────────────────────────────
+# 저장소가 public 이므로 개인정보가 담긴 파일은 절대 올리지 않는다.
+_admin/data/inquiries.json
+_admin/attachments/
+_admin/backups/
+_admin/_shot/

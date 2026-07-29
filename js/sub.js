@@ -38,6 +38,11 @@
 	var notice = document.getElementById('formNotice');
 	var endpoint = form.getAttribute('data-endpoint') || '';
 
+	/* 로컬 관리자(내 PC)로 접수하도록 설정된 경우, 실제 방문자에게는 적용하지 않는다.
+	   실서버 주소(/inquiry.php 등)를 넣으면 어디서든 그대로 전송된다. */
+	var isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+	if (endpoint.indexOf('/api/') === 0 && !isLocal) endpoint = '';
+
 	function rowOf(el) {
 		return el.closest('.form-row') || el.closest('.form-agree');
 	}
@@ -88,6 +93,64 @@
 				notice.classList.add('on');
 				window.scrollTo({ top: notice.getBoundingClientRect().top + window.scrollY - 200, behavior: 'smooth' });
 			}
+			return;
 		}
+
+		/* 접수 서버가 연결된 경우 : JSON 으로 전송한다 */
+		e.preventDefault();
+		send();
 	});
+
+	function send() {
+		var btn = form.querySelector('.btn-submit');
+		var label = btn ? btn.textContent : '';
+		if (btn) { btn.disabled = true; btn.textContent = '접수하는 중…'; }
+
+		var data = {
+			company: form.company.value.trim(),
+			name: form.name.value.trim(),
+			tel: form.tel.value.trim(),
+			email: form.email.value.trim(),
+			type: (form.querySelector('input[name="type"]:checked') || {}).value || '',
+			message: form.message.value.trim(),
+			files: []
+		};
+
+		var picked = Array.prototype.slice.call((form.querySelector('#fFile') || {}).files || []);
+		var jobs = picked.map(function (f) {
+			return new Promise(function (res) {
+				var r = new FileReader();
+				r.onload = function () { data.files.push({ name: f.name, data: String(r.result).split(',')[1] }); res(); };
+				r.onerror = function () { res(); };
+				r.readAsDataURL(f);
+			});
+		});
+
+		Promise.all(jobs).then(function () {
+			return fetch(endpoint, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(data)
+			});
+		}).then(function (r) {
+			return r.json();
+		}).then(function (j) {
+			if (!j || !j.ok) throw new Error('접수 실패');
+			done(true);
+		}).catch(function () {
+			done(false);
+		}).then(function () {
+			if (btn) { btn.disabled = false; btn.textContent = label; }
+		});
+	}
+
+	function done(ok) {
+		if (!notice) return;
+		notice.classList.add('on');
+		notice.innerHTML = ok
+			? '문의가 정상적으로 접수되었습니다. 담당자가 확인 후 회신드리겠습니다. 감사합니다.'
+			: '접수 중 오류가 발생했습니다. 번거로우시겠지만 <a href="mailto:jesse@daekunms.co.kr">jesse@daekunms.co.kr</a> 로 보내주시면 확인 후 회신드리겠습니다.';
+		if (ok) form.reset();
+		window.scrollTo({ top: notice.getBoundingClientRect().top + window.scrollY - 200, behavior: 'smooth' });
+	}
 })();

@@ -5,7 +5,9 @@ exclude:
   - _build/
   - _qa/
   - _ref/
+  - _admin/
   - _serve.ps1
   - _config.yml
   - .gitignore
   - "*.ps1"
+  - "*.cmd"
