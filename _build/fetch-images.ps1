@@ -26,7 +26,6 @@ sub_products|1542060748-10c28b62716f|2000|900|제품 서브 비주얼 — 의류
 sub_quality|1673201229733-69d19c5c4a87|2000|900|품질 서브 비주얼 — 재봉 작업
 sub_contact|1573164574572-cb89e39749b4|2000|900|문의 서브 비주얼 — 회의
 sub_etc|1601056639638-c53c50e13ead|2000|900|약관 서브 비주얼 — 원단 패턴
-map_network|1678182451047-196f22a4143e|1800|790|생산 네트워크 지도 영역 대체 — 적재 컨테이너
 main_prod_active|1618259181324-86a49fe68099|800|1067|메인 제품카드 — 액티브웨어
 main_prod_sweater|1574201635302-388dd92a4c3f|800|1067|메인 제품카드 — 스웨터
 main_prod_woven|1489987707025-afc232f7ea0f|800|1067|메인 제품카드 — 우븐·아우터
@@ -90,6 +89,8 @@ foreach ($line in $MANIFEST) {
 	}
 }
 
+$credits.Add('| `images/content/map_location.jpg` | 찾아오시는 길 본사 위치 지도 | Map data © OpenStreetMap contributors, ODbL 1.0 — _build/fetch-map.ps1 로 생성 |')
+$credits.Add('| `images/content/map_network.jpg` | 글로벌 생산 네트워크 다크 지도 | Map data © OpenStreetMap contributors, ODbL 1.0 — _build/fetch-map-world.ps1 로 생성 |')
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 [System.IO.File]::WriteAllText((Join-Path $Root 'images\_credits.md'), ($credits -join "`n") + "`n", $utf8)
 

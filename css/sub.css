@@ -13,8 +13,8 @@
 	position:absolute; content:''; inset:0;
 	background:linear-gradient(180deg, rgba(12,19,41,0.84) 0%, rgba(12,19,41,0.64) 46%, rgba(12,19,41,0.92) 100%);
 }
-/* 지도 영역에 사진이 들어간 경우 다크 밴드와 톤을 맞춘다 */
-.map-slot.has-img:after{
+/* 다크 밴드 위의 지도/사진만 톤을 맞춘다 (화이트 섹션의 지도는 원본 그대로 선명하게) */
+.dark-band .map-slot.has-img:after{
 	position:absolute; content:''; inset:0; z-index:1;
 	background:linear-gradient(180deg, rgba(12,19,41,0.34) 0%, rgba(12,19,41,0.12) 40%, rgba(12,19,41,0.5) 100%);
 }
@@ -263,6 +263,8 @@
  * 생산 네트워크 : 지도 + 국가 탭
 ======================================================== */
 .map-slot{position:relative; width:100%; aspect-ratio:16/7; border-radius:3rem; overflow:hidden}
+/* 세계지도 : 남북으로 긴 아시아·태평양 범위라 비율을 다르게 둔다 */
+.map-slot.map-world{aspect-ratio:10/7}
 .country-tab{display:flex; flex-wrap:wrap; gap:1rem; margin-top:4rem}
 .country-tab button{
 	padding:1.2rem 2.4rem; border-radius:3rem; box-sizing:border-box;

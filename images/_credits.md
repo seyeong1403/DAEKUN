@@ -16,7 +16,7 @@
 | `images/content/sub_quality.jpg` | 품질 서브 비주얼 — 재봉 작업 | https://unsplash.com/photos/1673201229733-69d19c5c4a87 |
 | `images/content/sub_contact.jpg` | 문의 서브 비주얼 — 회의 | https://unsplash.com/photos/1573164574572-cb89e39749b4 |
 | `images/content/sub_etc.jpg` | 약관 서브 비주얼 — 원단 패턴 | https://unsplash.com/photos/1601056639638-c53c50e13ead |
-| `images/content/map_network.jpg` | 생산 네트워크 지도 영역 대체 — 적재 컨테이너 | https://unsplash.com/photos/1678182451047-196f22a4143e |
+| `images/content/map_network.jpg` | 글로벌 생산 네트워크 다크 지도 (거점 6곳 마커) | Map data © OpenStreetMap contributors, ODbL 1.0 — _build/fetch-map-world.ps1 로 생성 |
 | `images/content/main_prod_active.jpg` | 메인 제품카드 — 액티브웨어 | https://unsplash.com/photos/1618259181324-86a49fe68099 |
 | `images/content/main_prod_sweater.jpg` | 메인 제품카드 — 스웨터 | https://unsplash.com/photos/1574201635302-388dd92a4c3f |
 | `images/content/main_prod_woven.jpg` | 메인 제품카드 — 우븐·아우터 | https://unsplash.com/photos/1489987707025-afc232f7ea0f |
@@ -49,3 +49,4 @@
 | `images/content/lb_swim_04.jpg` | 수영복 룩북 04 — 니트 소재 컷 | https://unsplash.com/photos/1595026525047-dfa997df8a4a |
 | `images/content/lb_swim_05.jpg` | 수영복 룩북 05 — 텍스타일 컷 | https://unsplash.com/photos/1624516268152-1e48624026ed |
 | `images/content/lb_swim_06.jpg` | 수영복 룩북 06 — 텍스타일 컷 | https://unsplash.com/photos/1615806528302-05c722d51e0d |
+| `images/content/map_location.jpg` | 찾아오시는 길 본사 위치 지도 | Map data © OpenStreetMap contributors, ODbL 1.0 — _build/fetch-map.ps1 로 생성 |

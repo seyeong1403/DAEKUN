@@ -6,7 +6,7 @@
   어떤 컷이 들어갈 자리인지 그대로 확인할 수 있다.
 
   대상 : index.html + _build/pages/*.html  → 실행 후 compose.ps1 재실행 필요
-  SKIP : 찾아오시는 길의 지도 삽입 영역(지도 API가 들어갈 자리라 사진 부적합)
+  참고 : 찾아오시는 길 지도는 _build/fetch-map.ps1 로 생성한 정적 지도(OSM). 정식 오픈 시 지도 API 임베드로 교체
 #>
 param([string]$Root = 'C:\Users\PC\Desktop\daekunms')
 $ErrorActionPreference = 'Stop'
@@ -45,9 +45,9 @@ $PLAN['_build\pages\01-about-overview.html']     = @('sub_about|원단을 선별
 $PLAN['_build\pages\02-about-history.html']      = @('sub_about|원단을 선별하는 생산 현장')
 $PLAN['_build\pages\03-about-organization.html'] = @('sub_about|원단을 선별하는 생산 현장')
 $PLAN['_build\pages\04-about-customers.html']    = @('sub_about|원단을 선별하는 생산 현장')
-$PLAN['_build\pages\05-about-location.html']     = @('sub_about|원단을 선별하는 생산 현장', 'SKIP')
+$PLAN['_build\pages\05-about-location.html']     = @('sub_about|원단을 선별하는 생산 현장', 'map_location|대건엠에스 본사 위치 지도 — 서울시 성동구 상원12길 34, A1센터 804호')
 $PLAN['_build\pages\06-business-sourcing.html']  = @('sub_sourcing|직접 소싱한 원사와 부자재')
-$PLAN['_build\pages\07-business-network.html']   = @('sub_network|부두에 접안한 컨테이너선', 'map_network|적재된 수출 컨테이너 야드')
+$PLAN['_build\pages\07-business-network.html']   = @('sub_network|부두에 접안한 컨테이너선', 'map_network|대건엠에스 글로벌 생산 네트워크 지도 — 한국 본사와 베트남·중국·방글라데시·인도네시아 생산 거점')
 $PLAN['_build\pages\08-products-activewear.html'] = @(
 	'sub_products|카테고리별로 진열된 의류', 'pi_active|액티브웨어 착장 컷',
 	'lb_active_01|액티브웨어 룩북 1', 'lb_active_02|액티브웨어 룩북 2', 'lb_active_03|액티브웨어 룩북 3',
