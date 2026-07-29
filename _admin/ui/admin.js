@@ -6,13 +6,35 @@
 (function () {
 'use strict';
 
+/* -------------------------------------------------- 잘못 연 경우 안내
+   index.html 을 더블클릭해서 열면(file://) 서버와 통신할 수 없다.
+   반드시 「관리자 실행.cmd」로 띄운 뒤 http://localhost:8880/admin/ 으로 들어와야 한다. */
+if (location.protocol === 'file:') {
+	document.body.innerHTML =
+		'<div style="max-width:620px;margin:14vh auto;padding:38px 40px;font-family:\'Pretendard\',\'Noto Sans KR\',sans-serif;' +
+		'background:#fff;border:1px solid #E3E6EC;border-radius:12px;line-height:1.75;word-break:keep-all">' +
+		'<h1 style="font-size:22px;font-weight:700;margin-bottom:14px;color:#131C3B">이 방법으로는 열 수 없습니다</h1>' +
+		'<p style="color:#5A6172;font-size:15px">지금 파일을 직접 열어서(더블클릭) 들어오셨습니다. 이렇게 열면 관리자가 동작하지 않습니다.</p>' +
+		'<p style="color:#5A6172;font-size:15px;margin-top:14px"><b style="color:#1A1E28">_admin</b> 폴더의 ' +
+		'<b style="color:#1A1E28">「관리자 실행.cmd」</b> 를 더블클릭해 주세요. 검은 창이 뜨면서 관리자가 자동으로 열립니다.</p>' +
+		'<p style="margin-top:22px;padding:14px 16px;background:#F5F6F8;border-radius:8px;font-size:14px;color:#5A6172">' +
+		'검은 창을 이미 띄우셨다면 브라우저 주소창에 이 주소를 직접 입력하세요<br>' +
+		'<b style="color:#3E6EAF;font-size:15px">http://localhost:8880/admin/</b></p></div>';
+	return;
+}
+
 /* -------------------------------------------------- 공통 */
 const $ = (s, p) => (p || document).querySelector(s);
 const $$ = (s, p) => Array.prototype.slice.call((p || document).querySelectorAll(s));
 
 async function api(route, body) {
 	const opt = body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {};
-	const res = await fetch('/api/' + route, opt);
+	let res;
+	try {
+		res = await fetch('/api/' + route, opt);
+	} catch (e) {
+		throw new Error('관리자 서버가 꺼져 있습니다. _admin 폴더의 「관리자 실행.cmd」를 실행한 뒤 새로고침해 주세요.');
+	}
 	let json;
 	try { json = await res.json(); } catch (e) { throw new Error('서버 응답을 읽을 수 없습니다.'); }
 	if (!json.ok) throw new Error(json.error || '알 수 없는 오류');
@@ -156,7 +178,6 @@ views.dash = async function () {
 			: '<p class="empty-msg">아직 접수된 문의가 없습니다.</p>';
 
 		const checks = [
-			['이미지가 아직 임시 샘플입니다. 실제 촬영본으로 교체해 주세요.', false],
 			['검색엔진 색인이 차단(noindex)되어 있습니다. 정식 오픈 때 해제해야 합니다.', false],
 			['약관 · 개인정보처리방침의 [ 대괄호 ] 자리를 채워야 합니다.', false],
 			['문의 폼이 실제 서버에 연결되어 있지 않습니다. (현재는 메일 안내로 대체)', false],

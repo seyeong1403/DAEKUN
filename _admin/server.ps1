@@ -218,19 +218,55 @@ function Get-Body($ctx) {
 }
 
 # ---------- 서버 시작 ----------
-$listener = New-Object System.Net.HttpListener
-$listener.Prefixes.Add("http://localhost:$Port/")
-$listener.Prefixes.Add("http://127.0.0.1:$Port/")
-try {
-	$listener.Start()
-} catch {
+# 이미 관리자가 떠 있으면 새로 띄우지 않고 그 주소를 열어준다.
+function Test-AdminAlive($p) {
+	try {
+		$req = [System.Net.WebRequest]::Create("http://localhost:$p/api/ping")
+		$req.Timeout = 1200
+		$res = $req.GetResponse()
+		$txt = (New-Object System.IO.StreamReader($res.GetResponseStream())).ReadToEnd()
+		$res.Close()
+		return ($txt -match '"ok"')
+	} catch { return $false }
+}
+
+if (Test-AdminAlive $Port) {
 	Write-Host ""
-	Write-Host "  [오류] $Port 번 포트를 열 수 없습니다." -ForegroundColor Red
-	Write-Host "  이미 관리자가 실행 중이거나 다른 프로그램이 포트를 쓰고 있습니다." -ForegroundColor Yellow
-	Write-Host "  다른 포트로 실행 : powershell -File _admin\server.ps1 -Port 8881" -ForegroundColor Gray
+	Write-Host "  관리자가 이미 실행 중입니다. 그 창을 그대로 쓰시면 됩니다." -ForegroundColor Yellow
+	Write-Host "  주소 : http://localhost:$Port/admin/" -ForegroundColor White
+	Write-Host ""
+	if (-not $NoBrowser) { Start-Process "http://localhost:$Port/admin/" | Out-Null }
+	Start-Sleep -Seconds 4
+	exit 0
+}
+
+# 포트가 막혀 있으면 다음 번호로 자동으로 옮겨 간다.
+$listener = $null
+$startPort = $Port
+foreach ($try in $startPort..($startPort + 9)) {
+	$l = New-Object System.Net.HttpListener
+	$l.Prefixes.Add("http://localhost:$try/")
+	$l.Prefixes.Add("http://127.0.0.1:$try/")
+	try {
+		$l.Start()
+		$listener = $l
+		$Port = $try
+		break
+	} catch {
+		try { $l.Close() } catch {}
+	}
+}
+if (-not $listener) {
+	Write-Host ""
+	Write-Host "  [오류] $startPort ~ $($startPort + 9) 번 포트를 모두 열 수 없습니다." -ForegroundColor Red
+	Write-Host "  PC를 다시 시작한 뒤 실행해 보세요." -ForegroundColor Yellow
 	Write-Host ""
 	Read-Host "  엔터를 누르면 닫힙니다"
 	exit 1
+}
+if ($Port -ne $startPort) {
+	Write-Host ""
+	Write-Host "  ※ $startPort 번 포트가 사용 중이라 $Port 번으로 열었습니다." -ForegroundColor Yellow
 }
 
 $adminUrl = "http://localhost:$Port/admin/"

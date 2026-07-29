@@ -13,3 +13,4 @@ _admin/data/inquiries.json
 _admin/attachments/
 _admin/backups/
 _admin/_shot/
+_admin/_server.log*
