@@ -109,6 +109,9 @@ input,textarea,select{font-family:inherit; font-size:inherit}
 	font-family:var(--font-en); font-size:1.3rem; font-weight:500; letter-spacing:0.01em;
 	color:rgba(255,255,255,0.82);
 }
+/* 실제 이미지가 들어간 슬롯 : 그라디언트 대신 사진을 덮는다 */
+.img-slot > img{position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover}
+.img-slot.has-img:before{display:none}
 .slot-spec:before{
 	content:''; width:0.6rem; height:0.6rem; border-radius:50%;
 	background:var(--steel-light); flex:none;

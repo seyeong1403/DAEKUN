@@ -23,7 +23,7 @@
 }
 .main-visual-img-cover:after{
 	position:absolute; content:''; inset:0; z-index:1;
-	background:linear-gradient(180deg, rgba(12,19,41,0.62) 0%, rgba(12,19,41,0.28) 42%, rgba(12,19,41,0.78) 100%);
+	background:linear-gradient(180deg, rgba(12,19,41,0.8) 0%, rgba(12,19,41,0.58) 45%, rgba(12,19,41,0.9) 100%);
 }
 .main-visual-txt-con{position:absolute; inset:0; z-index:3; display:flex; align-items:center; justify-content:center}
 .main-visual-txt-box{width:100%; text-align:center; padding-bottom:4rem; box-sizing:border-box}
