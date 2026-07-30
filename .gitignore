@@ -14,3 +14,6 @@ _admin/attachments/
 _admin/backups/
 _admin/_shot/
 _admin/_server.log*
+
+# 외부 공유 주소 메모 (비밀번호가 적혀 있다)
+_admin/공유주소.txt

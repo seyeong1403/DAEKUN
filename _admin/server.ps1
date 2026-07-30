@@ -7,11 +7,21 @@
 
   이 서버는 내 PC 안에서만 동작한다. 외부에서는 접속할 수 없다.
   배포 폴더에는 _admin 을 포함하지 않는다.
+
+  외부에 잠깐 보여줄 때 (회의 데모)
+  ---------------------------------------------------------------
+  -Password 를 주면 모든 요청에 아이디/비밀번호를 묻는다.
+  터널로 외부에 열 때는 반드시 이 옵션을 써야 한다.
+      powershell -File _admin\server.ps1 -Password "원하는비번"
+  아이디는 admin 이다. 비밀번호를 안 주면 예전처럼 그냥 열린다.
 #>
 param(
 	[int]$Port = 8880,
 	[string]$Root = '',
-	[switch]$NoBrowser
+	[switch]$NoBrowser,
+	[string]$Password = '',
+	[string]$User = 'admin',
+	[switch]$ReadOnly
 )
 
 $ErrorActionPreference = 'Stop'
@@ -36,6 +46,52 @@ foreach ($d in @($DataDir, $BackupDir)) {
 }
 
 $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+
+# 로그인 세션 표. 서버를 끄면 사라진다. (-Password 를 쓸 때만 의미가 있다)
+$SessionToken = [Guid]::NewGuid().ToString('N')
+
+function Get-LoginPage($msg) {
+	$warn = ''
+	if ($msg) { $warn = '<p class="err">' + $msg + '</p>' }
+	return @"
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>대건엠에스 홈페이지 관리자</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+ background:#101828;font:16px/1.7 'Malgun Gothic',system-ui,sans-serif;word-break:keep-all;padding:24px}
+.box{width:100%;max-width:380px;background:#fff;border-radius:14px;padding:40px 34px;
+ box-shadow:0 20px 60px rgba(0,0,0,.35)}
+h1{margin:0 0 4px;font-size:20px;color:#101828;letter-spacing:-.02em}
+.sub{margin:0 0 28px;font-size:14px;color:#667085}
+label{display:block;font-size:14px;font-weight:700;color:#344054;margin:0 0 7px}
+input{width:100%;padding:12px 14px;font-size:16px;border:1px solid #d0d5dd;border-radius:8px;
+ margin-bottom:18px;font-family:inherit}
+input:focus{outline:none;border-color:#1e5eff;box-shadow:0 0 0 3px rgba(30,94,255,.14)}
+button{width:100%;padding:13px;font-size:16px;font-weight:700;color:#fff;background:#1e5eff;
+ border:0;border-radius:8px;cursor:pointer;font-family:inherit}
+button:hover{background:#1a52e0}
+.err{margin:0 0 18px;padding:11px 14px;background:#fef3f2;border:1px solid #fda29b;
+ border-radius:8px;color:#b42318;font-size:14px}
+.foot{margin:24px 0 0;font-size:13px;color:#98a2b3;text-align:center}
+</style></head><body>
+<div class="box">
+ <h1>대건엠에스 홈페이지 관리자</h1>
+ <p class="sub">아이디와 비밀번호를 입력해 주세요.</p>
+ $warn
+ <form method="post" action="/login">
+  <label for="u">아이디</label>
+  <input id="u" name="user" autocomplete="username" autofocus>
+  <label for="p">비밀번호</label>
+  <input id="p" name="pass" type="password" autocomplete="current-password">
+  <button type="submit">들어가기</button>
+ </form>
+ <p class="foot">담당자에게 받은 아이디와 비밀번호가 필요합니다.</p>
+</div></body></html>
+"@
+}
 
 # ---------- 공통 함수 ----------
 function Read-TextFile($path) {
@@ -277,6 +333,13 @@ Write-Host "  └─────────────────────
 Write-Host "   관리자   $adminUrl" -ForegroundColor White
 Write-Host "   사이트   http://localhost:$Port/" -ForegroundColor Gray
 Write-Host "   폴더     $Root" -ForegroundColor DarkGray
+if ($Password) {
+	Write-Host ""
+	Write-Host "   비밀번호 켜짐   아이디 $User  /  비밀번호 $Password" -ForegroundColor Yellow
+}
+if ($ReadOnly) {
+	Write-Host "   구경만 모드     저장 · 배포가 잠겨 있습니다." -ForegroundColor Yellow
+}
 Write-Host ""
 Write-Host "   ※ 이 창을 닫으면 관리자가 종료됩니다." -ForegroundColor DarkYellow
 Write-Host ""
@@ -298,6 +361,78 @@ while ($listener.IsListening) {
 		$ctx.Response.Headers['Access-Control-Allow-Origin'] = '*'
 		$ctx.Response.Headers['Access-Control-Allow-Headers'] = 'Content-Type'
 		if ($method -eq 'OPTIONS') { $ctx.Response.StatusCode = 204; $ctx.Response.OutputStream.Close(); continue }
+
+		# ---------- 로그인 (외부에 열어 둔 동안) ----------
+		# -Password 를 준 경우에만 동작한다. 안 주면 예전과 똑같이 그냥 열린다.
+		if ($Password) {
+			$okAuth = $false
+
+			# 1) 로그인 쿠키
+			$ck = $req.Headers['Cookie']
+			if ($ck -and $ck -match 'dkadmin=([0-9a-f]{32})') {
+				if ($Matches[1] -ceq $SessionToken) { $okAuth = $true }
+			}
+			# 2) Basic 헤더 (점검 · 스크립트용. 브라우저는 위 쿠키를 쓴다)
+			if (-not $okAuth) {
+				$hdr = $req.Headers['Authorization']
+				if ($hdr -and $hdr.StartsWith('Basic ', [StringComparison]::OrdinalIgnoreCase)) {
+					try {
+						$dec = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($hdr.Substring(6).Trim()))
+						$sep = $dec.IndexOf(':')
+						if ($sep -ge 0 -and $dec.Substring(0, $sep) -ceq $User -and $dec.Substring($sep + 1) -ceq $Password) { $okAuth = $true }
+					} catch {}
+				}
+			}
+
+			if (-not $okAuth) {
+				# 로그인 제출
+				if ($path -eq '/login' -and $method -eq 'POST') {
+					$rawForm = ''
+					try {
+						$sr = New-Object System.IO.StreamReader($req.InputStream, [System.Text.Encoding]::UTF8)
+						$rawForm = $sr.ReadToEnd()
+					} catch {}
+					$form = [System.Web.HttpUtility]::ParseQueryString($rawForm)
+					if ($form['user'] -ceq $User -and $form['pass'] -ceq $Password) {
+						$ctx.Response.AddHeader('Set-Cookie', "dkadmin=$SessionToken; Path=/; HttpOnly; SameSite=Lax")
+						$ctx.Response.StatusCode = 302
+						$ctx.Response.AddHeader('Location', '/admin/')
+						$ctx.Response.OutputStream.Close()
+						continue
+					}
+					$bz = $Utf8NoBom.GetBytes((Get-LoginPage '아이디 또는 비밀번호가 맞지 않습니다.'))
+					$ctx.Response.StatusCode = 401
+					$ctx.Response.ContentType = 'text/html; charset=utf-8'
+					$ctx.Response.OutputStream.Write($bz, 0, $bz.Length)
+					$ctx.Response.OutputStream.Close()
+					continue
+				}
+				# 그 밖의 모든 요청 → 로그인 화면 (API 는 401 만 돌려준다)
+				if ($path.StartsWith('/api/')) {
+					$ctx.Response.StatusCode = 401
+					$ctx.Response.ContentType = 'application/json; charset=utf-8'
+					$bz = $Utf8NoBom.GetBytes('{"ok":false,"error":"로그인이 필요합니다."}')
+				} else {
+					$ctx.Response.StatusCode = 401
+					$ctx.Response.ContentType = 'text/html; charset=utf-8'
+					$bz = $Utf8NoBom.GetBytes((Get-LoginPage ''))
+				}
+				$ctx.Response.OutputStream.Write($bz, 0, $bz.Length)
+				$ctx.Response.OutputStream.Close()
+				continue
+			}
+		}
+
+		# ---------- 읽기 전용 (구경만 시킬 때) ----------
+		# 저장·업로드·배포는 모두 POST 라서 POST 만 막으면 된다.
+		if ($ReadOnly -and $method -eq 'POST') {
+			$ctx.Response.StatusCode = 403
+			$ctx.Response.ContentType = 'application/json; charset=utf-8'
+			$bz = $Utf8NoBom.GetBytes('{"ok":false,"error":"구경만 할 수 있는 모드입니다. 저장·배포는 잠겨 있습니다."}')
+			$ctx.Response.OutputStream.Write($bz, 0, $bz.Length)
+			$ctx.Response.OutputStream.Close()
+			continue
+		}
 
 		# ============================ API ============================
 		if ($path.StartsWith('/api/')) {
@@ -510,7 +645,8 @@ while ($listener.IsListening) {
 		}
 
 		# ======================== 관리자 UI ========================
-		if ($path -eq '/admin' ) { $ctx.Response.Redirect("http://localhost:$Port/admin/"); $ctx.Response.OutputStream.Close(); continue }
+		# 상대 주소로 보낸다. (localhost 절대주소로 보내면 외부에서 열었을 때 깨진다)
+		if ($path -eq '/admin' ) { $ctx.Response.StatusCode = 302; $ctx.Response.AddHeader('Location', '/admin/'); $ctx.Response.OutputStream.Close(); continue }
 		if ($path.StartsWith('/admin/')) {
 			$sub = $path.Substring(7)
 			if (-not $sub) { $sub = 'index.html' }
