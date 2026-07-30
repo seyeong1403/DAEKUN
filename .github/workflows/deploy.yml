@@ -16,7 +16,10 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           port: 2218
           script: |
-            echo "===== 开始部署 daekun1====="
+            set -e
+            echo "===== 开始部署 daekun ====="
+            git config --global --add safe.directory /opt/1panel/www/sites/daekun.vigo.co.kr/index
             cd /opt/1panel/www/sites/daekun.vigo.co.kr/index
-            git pull origin main
-            echo "===== daekun部署完成 ====="
+            git fetch origin
+            git reset --hard origin/main
+            echo "===== daekun 部署完成 ====="
