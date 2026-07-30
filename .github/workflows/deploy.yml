@@ -16,7 +16,7 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           port: 2218
           script: |
-            echo "===== 开始部署 daekun====="
+            echo "===== 开始部署 daekun1====="
             cd /opt/1panel/www/sites/daekun.vigo.co.kr/index
             git pull origin main
             echo "===== daekun部署完成 ====="
