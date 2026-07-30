@@ -6,8 +6,24 @@ desktop.ini
 # 편집기
 *.swp
 *~
+.idea/
+.vscode/
 
-# ── 관리자 (내 PC 전용 자료) ────────────────────────────
+# 로그 · 압축 파일
+*.log
+*.zip
+*.tar.gz
+*.rar
+
+# 의존성 (이 프로젝트는 쓰지 않지만 상대 저장소 규칙을 유지한다)
+node_modules/
+vendor/
+.env
+writable/cache/*
+writable/logs/*
+writable/debugbar/*
+
+# 관리자 (내 PC 전용 자료) ──────────────────────────────
 # 저장소가 public 이므로 개인정보가 담긴 파일은 절대 올리지 않는다.
 _admin/data/inquiries.json
 _admin/attachments/
