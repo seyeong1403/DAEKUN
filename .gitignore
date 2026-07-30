@@ -33,3 +33,14 @@ _admin/_server.log*
 
 # 외부 공유 주소 메모 (비밀번호가 적혀 있다)
 _admin/공유주소.txt
+
+# PHP 관리자 (카페24) ───────────────────────────────────
+# 문의 내용에는 방문자 개인정보가 들어간다. 서버에서 쌓이는 파일이므로 올리지 않는다.
+# (파일이 없으면 관리자가 자동으로 만든다)
+_admin_php/data/inquiries.json
+_admin_php/data/throttle/
+_admin_php/attachments/*
+!_admin_php/attachments/.htaccess
+_admin_php/backups/*
+!_admin_php/backups/.htaccess
+_admin_php/__shot.php
