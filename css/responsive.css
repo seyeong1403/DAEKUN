@@ -1,0 +1,276 @@
+@charset "utf-8";
+/* ========================================================
+ * DAEKUN MS — responsive.css
+ * rem 기준(html font-size)을 구간별로 축소해 전체 스케일을 함께 조정
+======================================================== */
+
+/* ---------- 1680 이하 ---------- */
+@media all and (max-width:1680px){
+	html{font-size:9.4px}
+	#gnb > ul > li > a{padding:0 3.2rem}
+}
+
+/* ---------- 1440 이하 ---------- */
+@media all and (max-width:1440px){
+	html{font-size:8.8px}
+	:root{--area-padding:24px}
+	#gnb > ul > li > a{padding:0 2.6rem}
+	.about-detail{gap:5rem}
+	.business-con{gap:5rem}
+	#secNetwork .factory-list > li{width:calc(50% - 1rem)}
+}
+
+/* ---------- 1180 이하 : GNB 모바일 전환 ---------- */
+@media all and (max-width:1180px){
+	html{font-size:9.2px}
+	:root{--header-top:0px; --header-height:7.6rem}
+
+	#header{position:fixed; top:0}
+	#headerInnerWrap{top:0; background-color:rgba(19,28,59,0.92); backdrop-filter:blur(1rem)}
+	#headerInnerWrap.fixed{height:var(--header-height)}
+	#headerInnerWrap.fixed #headerInner{height:var(--header-height)}
+	#header .logo img{width:16rem}
+
+	.sitemap-btn{display:block}
+	.header-contact-btn{display:none}
+
+	/* 전체메뉴 패널 */
+	#gnb{
+		position:fixed; top:var(--header-height); left:0; width:100%;
+		height:calc(100vh - var(--header-height)); padding:2rem 0 6rem;
+		box-sizing:border-box; overflow-y:auto; text-align:left;
+		background-color:var(--navy);
+		opacity:0; visibility:hidden; transform:translateY(-1rem);
+		transition:all 0.35s ease-in-out;
+	}
+	#gnb.open{opacity:1; visibility:visible; transform:translateY(0)}
+	#gnb > ul{display:block; width:100%}
+	#gnb > ul > li{border-bottom:1px solid rgba(255,255,255,0.1)}
+	#gnb > ul > li > a{
+		display:flex; align-items:center; justify-content:space-between;
+		padding:0 var(--area-padding); line-height:6.6rem; font-size:2rem; color:#fff;
+	}
+	#gnb > ul > li > a:after{
+		position:static; content:''; width:0.9rem; height:0.9rem; transform:rotate(135deg);
+		border:none; border-top:2px solid rgba(255,255,255,0.5); border-right:2px solid rgba(255,255,255,0.5);
+		background:none; margin-top:-0.4rem; transition:transform 0.3s;
+	}
+	#gnb > ul > li.open > a:after{transform:rotate(-45deg); margin-top:0.4rem}
+	#gnb > ul > li:hover > a:after,
+	#gnb > ul > li.on > a:after{width:0.9rem}
+	.gnb-2dep{
+		position:static; transform:none; opacity:1; visibility:visible;
+		min-width:0; width:100%; padding:0; border:0; border-radius:0;
+		background-color:rgba(0,0,0,0.22); backdrop-filter:none;
+		max-height:0; overflow:hidden; transition:max-height 0.35s ease-in-out;
+	}
+	#gnb > ul > li:hover .gnb-2dep,
+	#gnb > ul > li:focus-within .gnb-2dep{transform:none}
+	#gnb > ul > li.open .gnb-2dep{max-height:40rem}
+	.gnb-2dep ul{padding:1.4rem 0}
+	.gnb-2dep li a{padding:1rem var(--area-padding); font-size:1.7rem}
+	.sitemap-btn.active .line1{transform:translateY(0.6rem) rotate(45deg)}
+	.sitemap-btn.active .line2{opacity:0}
+	.sitemap-btn.active .line3{transform:translateY(-0.6rem) rotate(-45deg)}
+
+	/* 메인 비주얼 */
+	#mainVisual{height:88vh; min-height:60rem}
+	.main-visual-img-cover{border-radius:3rem}
+	.main-visual-txt1{font-size:6.4rem}
+
+	/* 섹션 : 2단 → 1단 */
+	.about-detail{flex-direction:column; gap:3.4rem}
+	.about-detail .left{width:100%}
+	.business-con{flex-direction:column; gap:5.4rem}
+	.business-con .left-con{width:100%}
+	.quality-top{flex-direction:column; gap:6rem}
+	.quality-top .left-con{width:100%}
+	.qa-pyramid > li{width:100% !important}
+	.qa-pyramid .lv2{width:76% !important}
+	.qa-pyramid .lv3{width:50% !important}
+
+	.stats-box{flex-direction:column; align-items:stretch; gap:4rem}
+	.stats-list{flex-wrap:wrap; gap:4rem 0; padding-right:0}
+	.stats-list > li{width:50%}
+	.stats-since{width:100%; height:auto; flex-direction:row; align-items:center; gap:3rem; padding:3.4rem}
+	.stats-since .since{display:flex; align-items:baseline; gap:1.2rem}
+	.stats-since .since span{display:inline}
+	.stats-since .go{margin-left:auto}
+
+	.product-list > li{width:calc(50% - 1.2rem)}
+	#secProduct .sec-head{flex-direction:column; align-items:flex-start; gap:2.4rem}
+	#secProduct .sec-head .sec-txt{max-width:none}
+
+	.contact-box{padding:6rem 4rem}
+	.contact-box .contact-inner{flex-direction:column; align-items:flex-start; gap:4.6rem}
+	.contact-info{width:100%}
+
+	.footer-top{flex-direction:column; gap:4rem}
+}
+
+/* ---------- 900 이하 ---------- */
+@media all and (max-width:900px){
+	html{font-size:9px}
+	:root{--area-padding:20px}
+	.m-br{display:block}
+
+	.sec-tit{font-size:4.2rem}
+	.sec-sub-tit{font-size:1.8rem}
+	#secAbout{padding:12rem 0 10rem}
+	.about-copy .line{font-size:3.4rem}
+	#secStats{padding:8rem 0}
+	#secBusiness,#secProduct{padding:11rem 0}
+	#secNetwork,#secQuality{padding:11rem 0 12rem}
+	#secCustomer,#secContact{padding:11rem 0}
+
+	.main-visual-txt1{font-size:4.8rem}
+	.main-visual-txt2{font-size:1.8rem}
+	.main-visual-util{bottom:6rem}
+
+	/* 흐름 도식 : 세로 스택 */
+	.flow-con{flex-direction:column; gap:3.4rem}
+	.flow-step + .flow-step:before{
+		top:-2.4rem; left:50%; transform:translateX(-50%) rotate(135deg);
+	}
+	#secNetwork .factory-list > li,
+	#secNetwork .factory-list > li.hq{width:100%}
+	.network-factory .factory-head{flex-direction:column; align-items:flex-start; gap:1.2rem}
+	.network-note{text-align:left}
+
+	.qa-step-list > li{width:calc(50% - 0.8rem); flex:none; min-width:0}
+
+	.customer-list{grid-template-columns:repeat(3,1fr)}
+	.customer-list > li{height:8.6rem}
+	.customer-list .brand{font-size:1.8rem}
+
+	.business-list > li a{flex-direction:column; align-items:flex-start; gap:2rem; padding:3.4rem 3rem}
+	.business-list .arrow{position:absolute; top:3rem; right:3rem}
+}
+
+/* ---------- 640 이하 ---------- */
+@media all and (max-width:640px){
+	.sec-tit{font-size:3.4rem}
+	.sec-txt{font-size:1.7rem}
+	.main-visual-txt1{font-size:3.8rem}
+	.main-visual-img-cover{inset:1.4rem; border-radius:2.2rem}
+	.about-copy .line{font-size:2.8rem}
+	.stats-list > li{width:100%}
+	.stats-list{gap:3.4rem 0}
+	.stats-list .number{font-size:6.4rem}
+	.stats-since{flex-direction:column; align-items:flex-start; gap:2.4rem}
+	.stats-since .go{margin-left:0}
+	.product-list > li{width:100%}
+	.qa-step-list > li{width:100%}
+	.customer-list{grid-template-columns:repeat(2,1fr)}
+	.contact-box{padding:4.6rem 2.6rem; border-radius:2.6rem}
+	.footer-info-list{gap:1.8rem 0; flex-direction:column}
+	.footer-bottom{flex-direction:column; align-items:flex-start; gap:2rem}
+	.img-slot .slot-spec{font-size:1.15rem; padding:0.5rem 1rem; left:1.2rem; bottom:1.2rem}
+}
+
+/* ========================================================
+ * 서브 페이지
+======================================================== */
+@media all and (max-width:1440px){
+	.split-con,.prod-intro,.form-con{gap:5rem}
+	.lnb-list > li > a{padding:0 1.7rem}
+	.lnb-list > li.on > a:after{left:1.7rem; right:1.7rem}
+}
+
+@media all and (max-width:1180px){
+	#subVisual{height:44rem}
+	.sub-visual-txt-con{padding-top:calc(var(--header-height) + 2rem)}
+	.sub-visual-tit{font-size:5.2rem}
+	.sub-visual-img .slot-spec{bottom:9rem}
+
+	/* LNB : 브레드크럼 숨기고 가로 스크롤 */
+	.sub-lnb{height:7rem}
+	.sub-lnb-inner{justify-content:flex-start}
+	.breadcrumb{display:none}
+	.lnb-list{width:100%; overflow-x:auto; scrollbar-width:none}
+	.lnb-list::-webkit-scrollbar{display:none}
+	.lnb-list > li > a{line-height:7rem}
+
+	.cont-sec{padding:10rem 0}
+	.cont-head{margin-bottom:4.6rem}
+
+	.split-con,.prod-intro,.form-con{flex-direction:column}
+	.split-con .left-con,.split-con .right-con,
+	.prod-intro .left-con,.prod-intro .right-con,
+	.form-con .form-left,.form-con .form-right{width:100%; flex:none}
+	.prod-intro .right-con{max-width:46rem}
+
+	.feature-list > li,.staff-list > li{width:calc(50% - 1.2rem)}
+	.lookbook-list{grid-template-columns:repeat(2,1fr)}
+	.qa-group-list{flex-direction:column}
+	.chain-list > li{width:calc(50% - 0.9rem); flex:none; min-width:0}
+	.chain-list > li + li:before{display:none}
+	.map-slot{aspect-ratio:16/10}
+	.org-chart{padding:4.6rem 2.4rem}
+	.table-scroll{overflow-x:auto}
+	.table-scroll .data-table{min-width:72rem}
+
+	.sub-cta{padding:6rem 4rem}
+	.sub-cta .cta-inner{flex-direction:column; align-items:flex-start; gap:4rem}
+	.sub-cta .sec-tit{font-size:3.6rem}
+}
+
+@media all and (max-width:900px){
+	#subVisual{height:38rem}
+	.sub-visual-tit{font-size:4rem}
+	.sub-visual-txt{font-size:1.7rem}
+	.cont-sec{padding:8.6rem 0}
+	.cont-head .sec-tit{font-size:3.4rem}
+	.cont-head.row{flex-direction:column; align-items:flex-start; gap:2.2rem}
+	.cont-head.row .sec-txt{max-width:none}
+	.lead-copy{font-size:2.6rem}
+
+	.info-table th{width:32%}
+	.info-table th,.info-table td{padding:2rem 1.6rem; font-size:1.6rem}
+
+	.history-top{flex-direction:column; align-items:flex-start; gap:2.6rem}
+	.history-top .since-box .year{font-size:8rem}
+	.history-list > li{flex-direction:column; gap:1.4rem; padding:3.4rem 0}
+	.history-list .year{width:auto; font-size:3.2rem}
+
+	/* 조직도 : 세로 스택 */
+	.org-branch{flex-direction:column; align-items:stretch; gap:3.4rem}
+	.org-branch:before{display:none}
+	.org-branch > li{width:100%}
+	.org-branch > li:before{top:-2rem; height:2rem}
+	.org-line{height:2rem}
+	.org-leaf{margin-top:3rem}
+
+	.feature-list > li,.staff-list > li{width:100%}
+	.chain-list > li{width:100%}
+	.qa-flow-list > li{flex-direction:column; align-items:flex-start; gap:1.6rem; padding:2.6rem 2.4rem}
+	.qa-flow-list > li + li:after{left:3.4rem}
+
+	.form-row{flex-direction:column; gap:1rem}
+	.form-row .form-label{width:auto; padding-top:0}
+	.form-agree{padding:2.2rem 2.2rem}
+	.location-info > li{width:100%; flex:none; min-width:0}
+	.prod-spec dl{flex-direction:column; gap:0.6rem}
+	.prod-spec dt{width:auto}
+	.terms-body h3{font-size:2rem; margin-top:4rem}
+}
+
+@media all and (max-width:640px){
+	#subVisual{height:34rem}
+	.sub-visual-tit{font-size:3.2rem}
+	/* 좁은 화면에서는 비주얼 텍스트와 겹치므로 규격 라벨을 숨긴다 */
+	.sub-visual-img .slot-spec{display:none}
+	.cont-head .sec-tit{font-size:2.8rem}
+	.lookbook-list{gap:1.4rem}
+	.map-slot{aspect-ratio:4/3; border-radius:2rem}
+	.prod-intro .thumb{border-radius:2rem}
+	.sub-cta{padding:4.6rem 2.4rem; border-radius:2.6rem}
+	.sub-cta .cm-btn{width:100%}
+	.org-leaf{flex-direction:column; gap:1.4rem; margin-top:2.6rem}
+	.org-leaf:after{display:none}
+	.org-leaf > li{width:100%; max-width:none}
+	.org-leaf > li:before{display:none}
+	.contact-side{padding:3rem 2.4rem}
+	.staff-list > li{padding:3rem 2.4rem}
+	.feature-list > li{padding:3.4rem 2.6rem}
+}

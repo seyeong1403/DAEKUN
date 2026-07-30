@@ -1,0 +1,134 @@
+@charset "utf-8";
+/* ========================================================
+ * DAEKUN MS — board.css (공지사항 · 자료실)
+ * 관리자에서 등록한 글이 이 스타일로 출력된다.
+======================================================== */
+
+/* ---------------- 목록 ---------------- */
+.board-list{border-top:2px solid var(--navy)}
+.board-list > li{border-bottom:1px solid var(--line)}
+.board-list > li > a{
+	display:flex; align-items:center; gap:4rem;
+	padding:3.4rem 1rem 3.4rem 2rem; transition:var(--transition-custom);
+}
+.board-list > li > a:hover{background-color:var(--bg-grey); padding-left:3rem}
+
+.bl-txt{flex:1; min-width:0}
+.bl-tit{
+	display:block; font-size:2.2rem; font-weight:600; letter-spacing:-0.03em;
+	color:var(--text); line-height:1.45; transition:var(--transition-custom);
+}
+.board-list > li > a:hover .bl-tit{color:var(--steel)}
+.bl-badge{
+	display:inline-block; vertical-align:2px; margin-right:1rem;
+	background-color:var(--navy); color:#fff;
+	font-size:1.3rem; font-weight:600; letter-spacing:0.02em;
+	padding:0.3rem 1rem; border-radius:0.3rem;
+}
+.bl-sum{
+	margin-top:0.9rem; font-size:1.6rem; color:var(--text-mute); line-height:1.6;
+	overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+
+.bl-side{flex:none; display:flex; align-items:center; gap:2rem}
+.bl-file{
+	font-size:1.4rem; color:var(--steel); border:1px solid rgba(62,110,175,0.35);
+	border-radius:2rem; padding:0.3rem 1.2rem;
+}
+.bl-date{font-size:1.7rem; color:var(--text-mute); letter-spacing:0.02em}
+
+.board-empty{
+	border-top:2px solid var(--navy); border-bottom:1px solid var(--line);
+	padding:10rem 0; text-align:center;
+}
+.board-empty p{font-size:1.8rem; color:var(--text-mute)}
+
+/* ---------------- 상세 ---------------- */
+.board-view{border-top:2px solid var(--navy)}
+
+.bv-head{padding:4rem 2rem; border-bottom:1px solid var(--line); background-color:var(--bg-grey)}
+.bv-tit{font-size:3.2rem; font-weight:700; letter-spacing:-0.035em; line-height:1.4; color:var(--text)}
+.bv-meta{display:flex; align-items:center; gap:1.6rem; margin-top:1.4rem}
+.bv-meta span{font-size:1.5rem; color:var(--text-mute)}
+.bv-meta span:first-child{
+	color:var(--steel); font-weight:600;
+	padding-right:1.6rem; border-right:1px solid var(--line);
+}
+
+.bv-body{padding:5rem 2rem; border-bottom:1px solid var(--line); min-height:24rem}
+.bv-body p{font-size:1.7rem; color:var(--text-sub); line-height:1.85}
+.bv-body p + p{margin-top:1.8rem}
+.bv-body strong{font-weight:600; color:var(--text)}
+.bv-body a{color:var(--steel); text-decoration:underline; word-break:break-all}
+.bv-body img{margin:2.4rem 0; border-radius:0.6rem}
+
+.bv-file{
+	display:flex; gap:2.4rem; padding:2.6rem 2rem;
+	border-bottom:1px solid var(--line); background-color:var(--bg-grey);
+}
+.bv-file-tit{flex:none; font-size:1.6rem; font-weight:600; color:var(--text); padding-top:0.2rem}
+.bv-file ul{flex:1; display:flex; flex-direction:column; gap:0.8rem}
+.bv-file li a{
+	display:inline-flex; align-items:center; gap:1rem;
+	font-size:1.6rem; color:var(--text-sub); transition:var(--transition-custom);
+}
+.bv-file li a::before{
+	content:''; width:1.4rem; height:1.4rem; flex:none;
+	border:1px solid var(--text-mute); border-top:0; border-radius:0 0 0.2rem 0.2rem;
+}
+.bv-file li a:hover{color:var(--steel); text-decoration:underline}
+.bv-file .fsize{font-size:1.4rem; color:var(--text-mute)}
+
+.bv-nav{border-bottom:1px solid var(--line)}
+.bv-nav > li{
+	display:flex; align-items:center; gap:2.4rem;
+	padding:1.9rem 2rem; font-size:1.6rem;
+}
+.bv-nav > li.prev{border-bottom:1px solid var(--line)}
+.bv-nav .lb{
+	flex:none; width:8rem; font-weight:600; color:var(--text); position:relative; padding-left:2rem;
+}
+.bv-nav .lb::before{
+	content:''; position:absolute; left:0; top:50%; width:0.8rem; height:0.8rem;
+	border-top:1px solid var(--text-mute); border-right:1px solid var(--text-mute);
+}
+.bv-nav .prev .lb::before{transform:translateY(-50%) rotate(-45deg)}
+.bv-nav .next .lb::before{transform:translateY(-50%) rotate(135deg)}
+.bv-nav a{
+	flex:1; min-width:0; color:var(--text-sub); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+	transition:var(--transition-custom);
+}
+.bv-nav a:hover{color:var(--steel); text-decoration:underline}
+.bv-nav .none{color:var(--text-mute)}
+
+.bv-btn{display:flex; justify-content:center; margin-top:5rem}
+.bv-btn .cm-btn{margin-top:0}
+
+/* ---------------- 반응형 ---------------- */
+@media (max-width:1024px){
+	.board-list > li > a{gap:2.4rem; padding:2.8rem 1rem}
+	.bl-tit{font-size:2rem}
+	.bv-tit{font-size:2.8rem}
+	.bv-body{padding:4rem 1.6rem}
+	.bv-head{padding:3.2rem 1.6rem}
+}
+@media (max-width:767px){
+	.board-list > li > a{
+		flex-direction:column; align-items:flex-start; gap:1.2rem;
+		padding:2.2rem 0.4rem;
+	}
+	.board-list > li > a:hover{padding-left:0.4rem}
+	.bl-tit{font-size:1.8rem}
+	.bl-sum{font-size:1.5rem; white-space:normal; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical}
+	.bl-side{gap:1.2rem}
+	.bl-date{font-size:1.5rem}
+
+	.bv-head{padding:2.6rem 0.4rem}
+	.bv-tit{font-size:2.2rem}
+	.bv-body{padding:3rem 0.4rem; min-height:16rem}
+	.bv-body p{font-size:1.6rem}
+	.bv-file{flex-direction:column; gap:1.2rem; padding:2rem 0.4rem}
+	.bv-nav > li{gap:1.2rem; padding:1.5rem 0.4rem; font-size:1.5rem}
+	.bv-nav .lb{width:6.4rem}
+	.bv-btn{margin-top:3.4rem}
+}

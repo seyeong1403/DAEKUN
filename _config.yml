@@ -1,0 +1,13 @@
+# GitHub Pages 배포 설정
+# 개발용 파일은 공개 사이트에서 제외한다.
+# (언더스코어로 시작하는 폴더는 기본 제외되지만 명시해 둔다)
+exclude:
+  - _build/
+  - _qa/
+  - _ref/
+  - _admin/
+  - _serve.ps1
+  - _config.yml
+  - .gitignore
+  - "*.ps1"
+  - "*.cmd"

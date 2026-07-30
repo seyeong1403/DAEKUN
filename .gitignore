@@ -1,16 +1,35 @@
-.DS_Store
+# OS
 Thumbs.db
-.idea/
-.vscode/
+desktop.ini
+.DS_Store
+
+# 편집기
 *.swp
 *~
+.idea/
+.vscode/
+
+# 로그 · 압축 파일
 *.log
 *.zip
 *.tar.gz
 *.rar
+
+# 의존성 (이 프로젝트는 쓰지 않지만 상대 저장소 규칙을 유지한다)
 node_modules/
-.env
 vendor/
+.env
 writable/cache/*
 writable/logs/*
 writable/debugbar/*
+
+# 관리자 (내 PC 전용 자료) ──────────────────────────────
+# 저장소가 public 이므로 개인정보가 담긴 파일은 절대 올리지 않는다.
+_admin/data/inquiries.json
+_admin/attachments/
+_admin/backups/
+_admin/_shot/
+_admin/_server.log*
+
+# 외부 공유 주소 메모 (비밀번호가 적혀 있다)
+_admin/공유주소.txt

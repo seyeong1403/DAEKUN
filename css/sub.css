@@ -1,0 +1,531 @@
+@charset "utf-8";
+/* ========================================================
+ * DAEKUN MS — sub.css (서브 페이지)
+ * 메인의 카드·표·피라미드 등은 main.css 컴포넌트를 재사용한다
+======================================================== */
+
+/* ========================================================
+ * SUB VISUAL
+======================================================== */
+#subVisual{position:relative; width:100%; height:52rem; overflow:hidden; background-color:var(--navy-deep)}
+.sub-visual-img{position:absolute; inset:0}
+.sub-visual-img:after{
+	position:absolute; content:''; inset:0;
+	background:linear-gradient(180deg, rgba(12,19,41,0.84) 0%, rgba(12,19,41,0.64) 46%, rgba(12,19,41,0.92) 100%);
+}
+/* 다크 밴드 위의 지도/사진만 톤을 맞춘다 (화이트 섹션의 지도는 원본 그대로 선명하게) */
+.dark-band .map-slot.has-img:after{
+	position:absolute; content:''; inset:0; z-index:1;
+	background:linear-gradient(180deg, rgba(12,19,41,0.34) 0%, rgba(12,19,41,0.12) 40%, rgba(12,19,41,0.5) 100%);
+}
+.sub-visual-txt-con{
+	position:relative; z-index:2; display:flex; flex-direction:column; justify-content:center;
+	height:100%; padding:var(--header-height) 0 8rem; box-sizing:border-box;
+}
+/* flex 자식에 margin:0 auto 가 걸리면 폭이 줄어 가운데로 몰리므로 폭을 고정한다 */
+.sub-visual-txt-con > .area{width:100%}
+.sub-visual-tit{
+	font-family:var(--font-en); font-size:6.8rem; font-weight:300; letter-spacing:-0.01em;
+	color:#fff; line-height:1.1;
+}
+.sub-visual-tit b{font-weight:600}
+/* LNB 위로 올려 겹치지 않게 */
+.sub-visual-img .slot-spec{bottom:10rem}
+.sub-visual-txt{margin-top:1.4rem; font-size:2rem; font-weight:400; letter-spacing:-0.03em; color:rgba(255,255,255,0.76)}
+
+/* ---------- LNB + breadcrumb ---------- */
+.sub-lnb{
+	position:absolute; left:0; bottom:0; z-index:3; width:100%; height:8rem;
+	border-top:1px solid rgba(255,255,255,0.16);
+	background-color:rgba(12,19,41,0.34); backdrop-filter:blur(1rem);
+}
+.sub-lnb-inner{
+	display:flex; align-items:center; justify-content:space-between; gap:3rem; height:100%;
+	max-width:var(--area-width); margin:0 auto; padding:0 var(--area-padding); box-sizing:border-box;
+}
+.lnb-list{display:flex}
+.lnb-list > li{position:relative}
+.lnb-list > li > a{
+	display:block; padding:0 2.2rem; line-height:8rem; white-space:nowrap;
+	font-size:1.7rem; font-weight:400; letter-spacing:-0.03em; color:rgba(255,255,255,0.64);
+	transition:var(--transition-custom);
+}
+.lnb-list > li:first-child > a{padding-left:0}
+.lnb-list > li > a:hover{color:#fff}
+.lnb-list > li.on > a{color:#fff; font-weight:600}
+.lnb-list > li.on > a:after{
+	position:absolute; content:''; left:2.2rem; right:2.2rem; bottom:0; height:2px;
+	background-color:var(--steel-light);
+}
+.lnb-list > li:first-child.on > a:after{left:0}
+
+.breadcrumb{display:flex; align-items:center; flex:none}
+.breadcrumb li{
+	display:flex; align-items:center; font-size:1.45rem; font-weight:400;
+	letter-spacing:-0.02em; color:rgba(255,255,255,0.5);
+}
+.breadcrumb li + li:before{
+	content:''; width:0.5rem; height:0.5rem; margin:0 1.2rem;
+	border-top:1px solid rgba(255,255,255,0.4); border-right:1px solid rgba(255,255,255,0.4);
+	transform:rotate(45deg);
+}
+.breadcrumb li:last-child{color:#fff}
+.breadcrumb a:hover{color:#fff; text-decoration:underline}
+.breadcrumb .home{font-family:var(--font-en); letter-spacing:0.02em}
+
+/* ========================================================
+ * CONTENT 공통
+======================================================== */
+/* 섹션마다 자체 상하 여백을 갖고, 색 밴드는 전체 폭으로 깔린다 */
+.cont-sec{padding:13rem 0}
+.cont-sec.dark-band{background-color:var(--navy)}
+.cont-sec.grey-band{background-color:var(--bg-grey)}
+.cont-sec.tight{padding-top:0}
+.cont-head{margin-bottom:6rem}
+.cont-head.center{text-align:center}
+.cont-head.center .sec-txt{max-width:82rem; margin-left:auto; margin-right:auto}
+.cont-head .sec-tit{font-size:4.6rem}
+.cont-head.row{display:flex; align-items:flex-end; justify-content:space-between; gap:6rem}
+.cont-head.row .sec-txt{max-width:56rem; margin-top:0; flex:none}
+
+/* 본문 단락 */
+.cont-body p{font-size:1.8rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-sub); line-height:1.8}
+.cont-body p + p{margin-top:2rem}
+.dark-band .cont-body p{color:rgba(255,255,255,0.66)}
+
+/* 강조 카피 */
+.lead-copy{font-size:3.4rem; font-weight:700; letter-spacing:-0.045em; color:var(--navy); line-height:1.44}
+.dark-band .lead-copy{color:#fff}
+
+/* 2단 : 좌측 타이틀 + 우측 본문 */
+.split-con{display:flex; gap:8rem}
+.split-con .left-con{width:38%; flex:none}
+.split-con .right-con{flex:1}
+
+/* ========================================================
+ * 정보 표 (기업 개요 등)
+======================================================== */
+.info-table{width:100%; border-top:2px solid var(--navy)}
+.info-table th,.info-table td{
+	padding:2.4rem 2rem; border-bottom:1px solid var(--line);
+	font-size:1.7rem; letter-spacing:-0.03em; line-height:1.6; text-align:left; vertical-align:top;
+}
+.info-table th{
+	width:22%; font-weight:600; color:var(--navy);
+	background-color:var(--bg-grey);
+}
+.info-table td{font-weight:400; color:var(--text-sub)}
+.info-table td a:hover{color:var(--steel); text-decoration:underline}
+/* 다크 배경용 표 */
+.dark-band .info-table{border-top-color:rgba(255,255,255,0.5)}
+.dark-band .info-table th{background-color:rgba(255,255,255,0.06); color:#fff; border-bottom-color:rgba(255,255,255,0.12)}
+.dark-band .info-table td{color:rgba(255,255,255,0.72); border-bottom-color:rgba(255,255,255,0.12)}
+
+/* 데이터 표 (생산 카테고리 등) */
+.data-table{width:100%; border-top:2px solid rgba(255,255,255,0.5)}
+.data-table th,.data-table td{
+	padding:2rem 1.8rem; border-bottom:1px solid rgba(255,255,255,0.12);
+	font-size:1.6rem; letter-spacing:-0.02em; line-height:1.55; text-align:left; vertical-align:middle;
+}
+.data-table thead th{
+	font-family:var(--font-en); font-size:1.45rem; font-weight:600; letter-spacing:0.06em;
+	text-transform:uppercase; color:var(--steel-light);
+}
+.data-table tbody th{font-weight:600; color:#fff; white-space:nowrap}
+.data-table td{font-weight:400; color:rgba(255,255,255,0.72)}
+.data-table tbody tr:hover th,
+.data-table tbody tr:hover td{background-color:rgba(255,255,255,0.04)}
+
+/* ========================================================
+ * 연혁 타임라인
+======================================================== */
+.history-top{display:flex; align-items:flex-end; gap:6rem; padding-bottom:6rem; border-bottom:1px solid var(--line)}
+.history-top .since-box{flex:none}
+.history-top .since-box .label{
+	display:block; font-family:var(--font-en); font-size:1.6rem; font-weight:600;
+	letter-spacing:0.06em; text-transform:uppercase; color:var(--text-mute);
+}
+.history-top .since-box .year{
+	font-family:var(--font-en); font-size:11rem; font-weight:300; letter-spacing:-0.03em;
+	color:var(--navy); line-height:1;
+}
+.history-top .txt-box p{font-size:1.8rem; color:var(--text-sub); line-height:1.8; letter-spacing:-0.03em}
+
+.history-list{margin-top:2rem}
+.history-list > li{display:flex; gap:6rem; padding:4.6rem 0; border-bottom:1px solid var(--line)}
+.history-list .year{
+	flex:none; width:16rem; font-family:var(--font-en);
+	font-size:4rem; font-weight:500; letter-spacing:-0.02em; color:var(--navy); line-height:1.1;
+}
+.history-list .desc{flex:1; padding-top:0.6rem}
+.history-list .desc dl{position:relative; padding-left:2rem}
+.history-list .desc dl + dl{margin-top:1.6rem}
+.history-list .desc dl:before{
+	position:absolute; content:''; top:1.1rem; left:0; width:0.7rem; height:0.7rem;
+	border-radius:50%; background-color:var(--steel);
+}
+.history-list .desc dt{font-size:2rem; font-weight:600; letter-spacing:-0.04em; color:var(--navy); line-height:1.5}
+.history-list .desc dd{margin-top:0.4rem; font-size:1.7rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-sub); line-height:1.65}
+
+/* ========================================================
+ * 조직도
+======================================================== */
+.org-chart{padding:6rem 4rem; background-color:var(--bg-grey); border-radius:3rem}
+.org-node{
+	display:flex; align-items:center; justify-content:center; text-align:center;
+	min-height:6.4rem; padding:1.2rem 2.4rem; box-sizing:border-box;
+	border-radius:1.2rem; background-color:#fff; border:1px solid var(--line);
+	font-size:1.8rem; font-weight:600; letter-spacing:-0.03em; color:var(--navy);
+}
+.org-node.ceo{
+	width:24rem; margin:0 auto; background-color:var(--navy); border-color:var(--navy); color:#fff;
+	font-size:2rem;
+}
+.org-line{width:2px; height:4rem; margin:0 auto; background-color:var(--line)}
+.org-branch{position:relative; display:flex; align-items:flex-start; justify-content:space-between; gap:2.4rem}
+.org-branch:before{
+	position:absolute; content:''; top:-4rem; left:16.666%; right:16.666%;
+	height:2px; background-color:var(--line);
+}
+.org-branch > li{position:relative; width:calc(33.333% - 1.6rem)}
+.org-branch > li:before{
+	position:absolute; content:''; top:-4rem; left:50%; width:2px; height:4rem;
+	background-color:var(--line); transform:translateX(-50%);
+}
+.org-branch .team-node{background-color:var(--steel); border-color:var(--steel); color:#fff}
+
+/* 본부 하위 팀 */
+.org-leaf{position:relative; display:flex; justify-content:center; gap:1.6rem; margin-top:4rem}
+.org-leaf:before{
+	position:absolute; content:''; top:-4rem; left:50%; width:2px; height:2rem;
+	background-color:var(--line); transform:translateX(-50%);
+}
+.org-leaf:after{
+	position:absolute; content:''; top:-2rem; left:25%; right:25%; height:2px;
+	background-color:var(--line);
+}
+/* 가로 연결선(left/right 25%)이 각 노드 중심과 정확히 맞도록 폭을 정확히 절반으로 둔다 */
+.org-leaf > li{position:relative; width:calc(50% - 0.8rem)}
+.org-leaf > li:before{
+	position:absolute; content:''; top:-2rem; left:50%; width:2px; height:2rem;
+	background-color:var(--line); transform:translateX(-50%);
+}
+.org-leaf .org-node{min-height:5.2rem; font-size:1.65rem; font-weight:500}
+.org-note{margin-top:3.4rem; font-size:1.6rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-mute); text-align:center}
+
+/* ========================================================
+ * 강점 / 특징 카드 (3-up)
+======================================================== */
+.feature-list{display:flex; flex-wrap:wrap; gap:2.4rem}
+.feature-list > li{
+	width:calc(33.333% - 1.6rem); padding:4.4rem 3.4rem; box-sizing:border-box;
+	border:1px solid var(--line); border-radius:2.4rem; background-color:#fff;
+	transition:var(--transition-custom);
+}
+.feature-list > li:hover{border-color:var(--navy); box-shadow:0 1.6rem 4rem rgba(19,28,59,0.08)}
+.feature-list .num{
+	display:block; font-family:var(--font-en); font-size:1.5rem; font-weight:600;
+	letter-spacing:0.08em; color:var(--steel);
+}
+.feature-list strong{display:block; margin-top:2rem; font-size:2.4rem; font-weight:700; letter-spacing:-0.045em; color:var(--navy); line-height:1.34}
+.feature-list p{margin-top:1.6rem; font-size:1.65rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-sub); line-height:1.7}
+.dark-band .feature-list > li{background-color:rgba(255,255,255,0.04); border-color:var(--navy-line)}
+.dark-band .feature-list > li:hover{border-color:rgba(92,143,208,0.5); box-shadow:none}
+.dark-band .feature-list strong{color:#fff}
+.dark-band .feature-list p{color:rgba(255,255,255,0.6)}
+.dark-band .feature-list .num{color:var(--steel-light)}
+
+/* ========================================================
+ * 밸류체인 / 프로세스 흐름 (번호 + 화살표)
+======================================================== */
+.chain-list{display:flex; flex-wrap:wrap; gap:1.8rem}
+.chain-list > li{
+	position:relative; flex:1; min-width:18rem; padding:3.4rem 2.6rem; box-sizing:border-box;
+	border-radius:2rem; background-color:var(--bg-grey);
+}
+/* 회색 밴드 위에서는 카드가 배경과 같은 색이 되므로 흰색으로 */
+.grey-band .chain-list > li{background-color:#fff; border:1px solid var(--line)}
+.dark-band .chain-list > li{background-color:rgba(255,255,255,0.04); border:1px solid var(--navy-line)}
+.dark-band .chain-list strong{color:#fff}
+.dark-band .chain-list p{color:rgba(255,255,255,0.6)}
+.dark-band .chain-list .no{color:var(--steel-light)}
+.dark-band .chain-list > li + li:before{border-color:rgba(255,255,255,0.34)}
+.chain-list > li + li:before{
+	position:absolute; content:''; top:50%; left:-1.3rem; width:0.8rem; height:0.8rem;
+	border-top:2px solid var(--text-mute); border-right:2px solid var(--text-mute);
+	transform:translateY(-50%) rotate(45deg);
+}
+.chain-list .no{font-family:var(--font-en); font-size:1.4rem; font-weight:600; letter-spacing:0.06em; color:var(--steel)}
+.chain-list strong{display:block; margin-top:1.2rem; font-size:1.9rem; font-weight:600; letter-spacing:-0.04em; color:var(--navy); line-height:1.4}
+.chain-list p{margin-top:0.8rem; font-size:1.55rem; font-weight:400; letter-spacing:-0.02em; color:var(--text-sub); line-height:1.6}
+
+/* ========================================================
+ * 생산 네트워크 : 지도 + 국가 탭
+======================================================== */
+.map-slot{position:relative; width:100%; aspect-ratio:16/7; border-radius:3rem; overflow:hidden}
+/* 세계지도 : 남북으로 긴 아시아·태평양 범위라 비율을 다르게 둔다 */
+.map-slot.map-world{aspect-ratio:10/7}
+.country-tab{display:flex; flex-wrap:wrap; gap:1rem; margin-top:4rem}
+.country-tab button{
+	padding:1.2rem 2.4rem; border-radius:3rem; box-sizing:border-box;
+	border:1px solid var(--navy-line); background-color:rgba(255,255,255,0.04);
+	font-size:1.65rem; font-weight:500; letter-spacing:-0.03em; color:rgba(255,255,255,0.7);
+	transition:var(--transition-custom);
+}
+.country-tab button:hover{color:#fff; border-color:rgba(255,255,255,0.34)}
+.country-tab button.on{background-color:var(--steel); border-color:var(--steel); color:#fff; font-weight:600}
+.country-panel{margin-top:3.4rem}
+.country-panel > .panel{display:none}
+.country-panel > .panel.on{display:block}
+
+/* ========================================================
+ * 제품 : 인트로 + 룩북
+======================================================== */
+.prod-intro{display:flex; gap:8rem; align-items:center}
+.prod-intro .left-con{flex:1}
+.prod-intro .right-con{width:42%; flex:none}
+.prod-intro .thumb{position:relative; width:100%; aspect-ratio:4/5; border-radius:2.6rem; overflow:hidden}
+.prod-intro .cont-body{margin-top:2.6rem}
+.prod-spec{margin-top:4rem; border-top:1px solid var(--line)}
+.prod-spec dl{display:flex; gap:2.4rem; padding:2rem 0; border-bottom:1px solid var(--line)}
+.prod-spec dt{
+	flex:none; width:14rem; font-size:1.6rem; font-weight:600; letter-spacing:-0.03em; color:var(--navy);
+}
+.prod-spec dd{flex:1; font-size:1.65rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-sub); line-height:1.6}
+.prod-spec dd .tag{
+	display:inline-block; margin:0.3rem 0.4rem 0.3rem 0; padding:0.5rem 1.2rem;
+	border-radius:0.6rem; background-color:var(--bg-grey);
+	font-size:1.45rem; font-weight:500; color:var(--text-sub);
+}
+
+.lookbook-list{display:grid; grid-template-columns:repeat(3,1fr); gap:2.4rem}
+.lookbook-list > li{position:relative}
+.lookbook-list .thumb{position:relative; width:100%; aspect-ratio:3/4; border-radius:2rem; overflow:hidden}
+.lookbook-list .thumb .slot-spec{left:1.4rem; bottom:1.4rem; font-size:1.2rem; padding:0.6rem 1.1rem}
+
+/* ========================================================
+ * 문의 폼
+======================================================== */
+.form-con{display:flex; gap:8rem}
+.form-con .form-left{flex:1}
+.form-con .form-right{width:34%; flex:none}
+
+.form-list{border-top:2px solid var(--navy)}
+.form-row{display:flex; gap:2.4rem; padding:2.6rem 0; border-bottom:1px solid var(--line)}
+.form-row .form-label{
+	flex:none; width:16rem; padding-top:1.2rem;
+	font-size:1.7rem; font-weight:600; letter-spacing:-0.03em; color:var(--navy);
+}
+.form-row .form-label .req{color:var(--steel); margin-left:0.3rem}
+.form-row .form-field{flex:1; min-width:0}
+.form-field input[type="text"],
+.form-field input[type="tel"],
+.form-field input[type="email"],
+.form-field select,
+.form-field textarea{
+	width:100%; padding:1.4rem 1.8rem; box-sizing:border-box;
+	border:1px solid var(--line); border-radius:0.8rem; background-color:#fff;
+	font-size:1.65rem; font-weight:400; letter-spacing:-0.03em; color:var(--text); line-height:1.5;
+	transition:var(--transition-custom);
+}
+.form-field textarea{min-height:18rem; resize:vertical}
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus{outline:none; border-color:var(--steel); box-shadow:0 0 0 3px rgba(62,110,175,0.12)}
+.form-field input::placeholder,
+.form-field textarea::placeholder{color:var(--text-mute)}
+.form-field .field-help{margin-top:0.9rem; font-size:1.45rem; font-weight:400; color:var(--text-mute); line-height:1.5}
+.form-field .radio-group{display:flex; flex-wrap:wrap; gap:1rem 2.4rem; padding-top:1rem}
+.form-field .radio-item{display:inline-flex; align-items:center; gap:0.8rem; cursor:pointer}
+.form-field .radio-item input{width:1.8rem; height:1.8rem; accent-color:var(--steel)}
+.form-field .radio-item span{font-size:1.65rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-sub)}
+.form-field .file-row{display:flex; align-items:center; gap:1.4rem; flex-wrap:wrap}
+.form-field input[type="file"]{
+	flex:1; min-width:24rem; padding:1.2rem; box-sizing:border-box;
+	border:1px dashed var(--line); border-radius:0.8rem; background-color:var(--bg-grey);
+	font-size:1.55rem; color:var(--text-sub);
+}
+.form-field .error-msg{display:none; margin-top:0.9rem; font-size:1.45rem; font-weight:500; color:#C8453B}
+.form-row.has-error .form-field input,
+.form-row.has-error .form-field textarea,
+.form-row.has-error .form-field select{border-color:#C8453B}
+.form-row.has-error .error-msg{display:block}
+
+.form-agree{margin-top:3.4rem; padding:2.6rem 3rem; background-color:var(--bg-grey); border-radius:1.4rem}
+.form-agree .agree-check{display:inline-flex; align-items:flex-start; gap:1rem; cursor:pointer}
+.form-agree .agree-check input{width:1.9rem; height:1.9rem; margin-top:0.2rem; flex:none; accent-color:var(--steel)}
+.form-agree .agree-check span{font-size:1.65rem; font-weight:500; letter-spacing:-0.03em; color:var(--text); line-height:1.5}
+.form-agree .agree-check a{color:var(--steel); text-decoration:underline}
+.form-agree .error-msg{display:none; margin-top:1rem; font-size:1.45rem; font-weight:500; color:#C8453B}
+.form-agree.has-error .error-msg{display:block}
+.form-agree p{margin-top:1.4rem; font-size:1.5rem; font-weight:400; color:var(--text-mute); line-height:1.6}
+
+.form-submit{display:flex; justify-content:center; margin-top:5rem}
+.btn-submit{
+	display:inline-flex; align-items:center; justify-content:center;
+	min-width:26rem; height:6.4rem; padding:0 3.4rem; box-sizing:border-box;
+	border-radius:3.2rem; background-color:var(--navy);
+	font-size:1.8rem; font-weight:600; letter-spacing:-0.03em; color:#fff;
+	transition:var(--transition-custom);
+}
+.btn-submit:hover{background-color:var(--steel)}
+.form-notice{
+	display:none; margin-top:2.6rem; padding:2.2rem 2.6rem;
+	border:1px solid var(--line); border-left:3px solid var(--steel); border-radius:0.8rem;
+	background-color:var(--bg-grey);
+	font-size:1.65rem; font-weight:400; letter-spacing:-0.03em; color:var(--text); line-height:1.7;
+}
+.form-notice.on{display:block}
+.form-notice a{color:var(--steel); font-weight:600; text-decoration:underline}
+
+/* 문의 사이드 : 연락처 */
+.contact-side{padding:4rem 3.4rem; border-radius:2.4rem; background-color:var(--navy)}
+.contact-side .side-tit{font-size:2.2rem; font-weight:700; letter-spacing:-0.04em; color:#fff; line-height:1.4}
+.contact-side dl{padding:2.2rem 0; border-bottom:1px solid rgba(255,255,255,0.14)}
+.contact-side dl:first-of-type{margin-top:2.4rem; border-top:1px solid rgba(255,255,255,0.14)}
+.contact-side dt{
+	font-family:var(--font-en); font-size:1.35rem; font-weight:600; letter-spacing:0.08em;
+	text-transform:uppercase; color:rgba(255,255,255,0.45);
+}
+.contact-side dd{margin-top:0.6rem; font-size:1.7rem; font-weight:500; letter-spacing:-0.02em; color:#fff; line-height:1.5}
+.contact-side dd a:hover{text-decoration:underline}
+.contact-side .cm-btn{width:100%; margin-top:3.4rem}
+
+/* ========================================================
+ * 담당자 카드 (글로벌 연락망)
+======================================================== */
+.staff-list{display:flex; flex-wrap:wrap; gap:2.4rem}
+.staff-list > li{
+	width:calc(33.333% - 1.6rem); padding:4rem 3.4rem; box-sizing:border-box;
+	border:1px solid var(--line); border-radius:2.4rem; background-color:#fff;
+	transition:var(--transition-custom);
+}
+.staff-list > li:hover{border-color:var(--navy); box-shadow:0 1.6rem 4rem rgba(19,28,59,0.08)}
+.staff-list .role{
+	display:inline-block; padding:0.6rem 1.4rem; border-radius:3rem;
+	background-color:var(--bg-grey); font-family:var(--font-en);
+	font-size:1.4rem; font-weight:600; letter-spacing:0.04em; color:var(--steel);
+}
+.staff-list .name{
+	margin-top:2rem; font-family:var(--font-en); font-size:2.8rem; font-weight:600;
+	letter-spacing:-0.02em; color:var(--navy); line-height:1.3;
+}
+.staff-list .mail{margin-top:1.4rem}
+.staff-list .mail a{
+	font-family:var(--font-en); font-size:1.65rem; font-weight:400;
+	letter-spacing:0.01em; color:var(--text-sub); word-break:break-all;
+}
+.staff-list .mail a:hover{color:var(--steel); text-decoration:underline}
+
+/* ========================================================
+ * 찾아오시는 길
+======================================================== */
+.location-info{display:flex; flex-wrap:wrap; gap:2.4rem; margin-top:4rem}
+.location-info > li{
+	flex:1; min-width:26rem; padding:3.4rem 3rem; box-sizing:border-box;
+	border:1px solid var(--line); border-radius:2rem; background-color:#fff;
+}
+.location-info dt{
+	font-family:var(--font-en); font-size:1.4rem; font-weight:600; letter-spacing:0.08em;
+	text-transform:uppercase; color:var(--text-mute);
+}
+.location-info dd{margin-top:1.2rem; font-size:1.8rem; font-weight:500; letter-spacing:-0.03em; color:var(--navy); line-height:1.6}
+.location-info dd a:hover{color:var(--steel); text-decoration:underline}
+
+/* ========================================================
+ * QA 상세 : 활동 2분류
+======================================================== */
+.qa-group-list{display:flex; gap:2.4rem}
+.qa-group-list > li{
+	flex:1; padding:4rem 3.4rem; box-sizing:border-box;
+	border:1px solid var(--navy-line); border-radius:2.4rem; background-color:rgba(255,255,255,0.04);
+}
+.qa-group-list .group-head{padding-bottom:2.4rem; border-bottom:1px solid rgba(255,255,255,0.14)}
+.qa-group-list .group-head .en{
+	display:block; font-family:var(--font-en); font-size:1.4rem; font-weight:600;
+	letter-spacing:0.08em; text-transform:uppercase; color:var(--steel-light);
+}
+.qa-group-list .group-head strong{display:block; margin-top:0.8rem; font-size:2.4rem; font-weight:700; letter-spacing:-0.04em; color:#fff}
+.qa-group-list ul{margin-top:2.4rem}
+.qa-group-list ul li{
+	position:relative; padding-left:2.2rem; font-size:1.7rem; font-weight:400;
+	letter-spacing:-0.03em; color:rgba(255,255,255,0.74); line-height:1.7;
+}
+.qa-group-list ul li + li{margin-top:1.2rem}
+.qa-group-list ul li:before{
+	position:absolute; content:''; top:1.1rem; left:0; width:0.9rem; height:0.5rem;
+	border-left:2px solid var(--steel-light); border-bottom:2px solid var(--steel-light);
+	transform:rotate(-45deg);
+}
+
+/* QA 프로세스 (세로 흐름) */
+.qa-flow-list{counter-reset:qaflow}
+.qa-flow-list > li{
+	position:relative; padding:3rem 3.4rem; box-sizing:border-box;
+	border:1px solid var(--line); border-radius:1.8rem; background-color:#fff;
+	display:flex; align-items:center; gap:3rem;
+}
+.qa-flow-list > li:before{
+	position:absolute; content:''; top:0; left:0; width:100%; height:2px;
+	background-color:var(--steel); border-radius:2px;
+}
+.qa-flow-list > li + li{margin-top:1.8rem}
+.qa-flow-list > li + li:after{
+	position:absolute; content:''; top:-1.8rem; left:6.2rem; width:1px; height:1.8rem;
+	background-color:var(--line);
+}
+.qa-flow-list .no{
+	flex:none; display:flex; align-items:center; justify-content:center;
+	width:5.4rem; height:5.4rem; border-radius:50%; background-color:var(--bg-grey);
+	font-family:var(--font-en); font-size:1.7rem; font-weight:600; color:var(--navy);
+}
+.qa-flow-list .txt-box{flex:1}
+.qa-flow-list .txt-box strong{display:block; font-size:2rem; font-weight:600; letter-spacing:-0.04em; color:var(--navy); line-height:1.4}
+.qa-flow-list .txt-box .en{
+	display:block; margin-top:0.5rem; font-family:var(--font-en);
+	font-size:1.5rem; font-weight:500; letter-spacing:0.02em; color:var(--text-mute);
+}
+.qa-flow-list .txt-box p{margin-top:1rem; font-size:1.6rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-sub); line-height:1.65}
+
+/* ========================================================
+ * 약관 / 개인정보 본문
+======================================================== */
+.terms-body{font-size:1.7rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-sub); line-height:1.85}
+.terms-body h3{
+	margin:5rem 0 1.8rem; font-size:2.2rem; font-weight:700;
+	letter-spacing:-0.04em; color:var(--navy); line-height:1.5;
+}
+.terms-body h3:first-child{margin-top:0}
+.terms-body p + p{margin-top:1.4rem}
+.terms-body ul,.terms-body ol{margin-top:1.2rem}
+.terms-body ul > li{position:relative; padding-left:1.6rem}
+.terms-body ul > li:before{position:absolute; content:''; top:1.3rem; left:0; width:0.5rem; height:0.5rem; border-radius:50%; background-color:var(--text-mute)}
+.terms-body ol{counter-reset:tnum}
+.terms-body ol > li{position:relative; padding-left:2.4rem; counter-increment:tnum}
+.terms-body ol > li:before{
+	position:absolute; content:counter(tnum) "."; top:0; left:0;
+	font-weight:600; color:var(--navy);
+}
+.terms-body li + li{margin-top:0.6rem}
+.terms-notice{
+	margin-bottom:5rem; padding:2.4rem 2.8rem;
+	border-left:3px solid var(--steel); background-color:var(--bg-grey); border-radius:0.8rem;
+	font-size:1.6rem; font-weight:400; color:var(--text-sub); line-height:1.7;
+}
+
+/* ========================================================
+ * 하단 문의 유도 (서브 공통)
+======================================================== */
+.sub-cta{
+	position:relative; overflow:hidden; border-radius:4rem; padding:8rem;
+	background-color:var(--navy);
+	background-image:
+		radial-gradient(80% 120% at 88% 10%, rgba(62,110,175,0.4) 0%, rgba(62,110,175,0) 62%),
+		linear-gradient(120deg, #131C3B 0%, #16213F 60%, #0C1329 100%);
+}
+.sub-cta .cta-inner{position:relative; z-index:1; display:flex; align-items:center; justify-content:space-between; gap:6rem}
+.sub-cta .sec-sub-tit{color:var(--steel-light)}
+.sub-cta .sec-tit{color:#fff; font-size:4.2rem}
+.sub-cta .sec-txt{color:rgba(255,255,255,0.62); max-width:52rem}
+.sub-cta .cta-btn-box{flex:none}
+.sub-cta .cm-btn{margin-top:0}

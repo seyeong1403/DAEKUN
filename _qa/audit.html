@@ -1,0 +1,124 @@
+<!doctype html>
+<!-- 개발용 : 전 페이지를 지정 폭 iframe으로 열어 가로 오버플로 / .area 정렬을 한 번에 계측 -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>QA audit</title>
+<style>
+	body{margin:0; padding:24px; font:14px/1.6 monospace; background:#0c1329; color:#e8ecf5}
+	h1{font-size:16px; margin:0 0 16px}
+	table{border-collapse:collapse; width:100%; margin-bottom:24px}
+	th,td{border:1px solid #2a3a63; padding:6px 10px; text-align:left; white-space:nowrap}
+	th{background:#16213f; color:#8fb4e8}
+	.ok{color:#7ddc9a}
+	.bad{color:#ff8b7d; font-weight:700}
+	iframe{position:absolute; left:-99999px; top:0; border:0}
+</style>
+</head>
+<body>
+<h1>DAEKUN MS — layout audit</h1>
+<div id="out">measuring…</div>
+<script>
+	var PAGES = [
+		'index.html',
+		'about/overview.html', 'about/history.html', 'about/organization.html',
+		'about/customers.html', 'about/location.html',
+		'business/sourcing.html', 'business/network.html',
+		'products/activewear.html', 'products/sweaters.html',
+		'products/woven.html', 'products/swimwear.html',
+		'quality/assurance.html',
+		'contact/inquiry.html', 'contact/global.html',
+		'etc/privacy.html', 'etc/agreement.html'
+	];
+	var WIDTHS = [1600, 1024, 390];
+
+	function measure(page, width) {
+		return new Promise(function (resolve) {
+			var f = document.createElement('iframe');
+			f.style.width = width + 'px';
+			f.style.height = '900px';
+			f.src = '../' + page;
+			f.addEventListener('load', function () {
+				var win = f.contentWindow, doc = win.document;
+				/* 스크롤 모션 유발 */
+				var h = doc.documentElement.scrollHeight;
+				for (var p = 0; p <= h; p += 500) win.scrollTo(0, p);
+				win.scrollTo(0, 0);
+
+				setTimeout(function () {
+					var clientW = doc.documentElement.clientWidth;
+					var docW = doc.documentElement.scrollWidth;
+
+					/* 클리핑되지 않은 가로 오버플로 요소 */
+					var over = [];
+					doc.querySelectorAll('*').forEach(function (el) {
+						var r = el.getBoundingClientRect();
+						if (r.width === 0) return;
+						if (r.right <= clientW + 1) return;
+						if (win.getComputedStyle(el).position === 'fixed') return;
+						var pa = el.parentElement, clipped = false;
+						while (pa) {
+							var cs = win.getComputedStyle(pa);
+							if (cs.overflow !== 'visible' || cs.overflowX !== 'visible') { clipped = true; break; }
+							pa = pa.parentElement;
+						}
+						if (!clipped) over.push(el.className || el.tagName);
+					});
+
+					/* .area 좌우 정렬 일관성 */
+					var lefts = [], rights = [];
+					doc.querySelectorAll('#content .area, #content .area-narrow, #subVisual .area, #mainContent .area').forEach(function (el) {
+						var r = el.getBoundingClientRect();
+						lefts.push(Math.round(r.left));
+						rights.push(Math.round(r.right));
+					});
+					var uL = lefts.filter(function (v, i, a) { return a.indexOf(v) === i; });
+					var uR = rights.filter(function (v, i, a) { return a.indexOf(v) === i; });
+
+					/* 다크 배경 위 어두운 텍스트 (대비 사고) 탐지 */
+					var lowContrast = [];
+					doc.querySelectorAll('.dark-band .sec-tit, .dark-band .sec-txt, .dark-band h3, .dark-band h4, .dark-sec .sec-tit').forEach(function (el) {
+						var c = win.getComputedStyle(el).color.match(/\d+/g);
+						if (!c) return;
+						var lum = (0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]);
+						if (lum < 110) lowContrast.push((el.className || el.tagName) + '(' + Math.round(lum) + ')');
+					});
+
+					f.remove();
+					resolve({
+						page: page, width: width,
+						clientW: clientW, docW: docW,
+						overflow: over, areaL: uL, areaR: uR, lowContrast: lowContrast
+					});
+				}, 700);
+			});
+			document.body.appendChild(f);
+		});
+	}
+
+	(async function () {
+		var rows = '';
+		var problems = 0;
+		for (var w = 0; w < WIDTHS.length; w++) {
+			rows += '<table><tr><th>page @' + WIDTHS[w] + '</th><th>docW/clientW</th><th>overflow</th><th>.area L / R</th><th>low contrast</th></tr>';
+			for (var i = 0; i < PAGES.length; i++) {
+				var r = await measure(PAGES[i], WIDTHS[w]);
+				var scrollBad = r.docW > r.clientW + 1;
+				var alignBad = r.areaL.length > 1 || r.areaR.length > 1;
+				var ovBad = r.overflow.length > 0;
+				var lcBad = r.lowContrast.length > 0;
+				if (scrollBad || ovBad || lcBad || alignBad) problems++;
+				rows += '<tr><td>' + r.page + '</td>'
+					+ '<td class="' + (scrollBad ? 'bad' : 'ok') + '">' + r.docW + ' / ' + r.clientW + '</td>'
+					+ '<td class="' + (ovBad ? 'bad' : 'ok') + '">' + (ovBad ? r.overflow.join(', ') : 'none') + '</td>'
+					+ '<td class="' + (alignBad ? 'bad' : 'ok') + '">' + r.areaL.join(',') + ' / ' + r.areaR.join(',') + '</td>'
+					+ '<td class="' + (lcBad ? 'bad' : 'ok') + '">' + (lcBad ? r.lowContrast.join(', ') : 'none') + '</td></tr>';
+			}
+			rows += '</table>';
+		}
+		document.getElementById('out').innerHTML =
+			'<p>문제 있는 조합 : <b class="' + (problems ? 'bad' : 'ok') + '">' + problems + '</b></p>' + rows;
+	})();
+</script>
+</body>
+</html>

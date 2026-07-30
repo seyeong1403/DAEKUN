@@ -1,0 +1,89 @@
+@charset "utf-8";
+/* ========================================================
+ * DAEKUN MS — common.css (메인·서브 공용 컴포넌트)
+======================================================== */
+
+/* ---------- 섹션 타이틀 ---------- */
+.sec{position:relative}
+.sec-head{position:relative}
+.sec-sub-tit{
+	display:block; font-family:var(--font-en);
+	font-size:2rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;
+	color:var(--steel); line-height:1.4; margin-bottom:1.6rem;
+}
+.sec-tit{font-size:5.4rem; font-weight:700; letter-spacing:-0.045em; color:var(--text); line-height:1.32}
+.sec-txt{font-size:1.8rem; font-weight:400; letter-spacing:-0.03em; color:var(--text-sub); line-height:1.72; margin-top:2.2rem}
+
+/* ---------- 다크 섹션 (메인 .dark-sec / 서브 .dark-band 공통) ---------- */
+.dark-sec{background-color:var(--navy)}
+.dark-sec .sec-tit,
+.dark-band .sec-tit{color:#fff}
+.dark-sec .sec-txt,
+.dark-band .sec-txt{color:rgba(255,255,255,0.62)}
+.dark-sec .sec-sub-tit,
+.dark-band .sec-sub-tit{color:var(--steel-light)}
+
+/* ---------- 공통 버튼 ---------- */
+.cm-btn{
+	position:relative; display:inline-flex; align-items:center; justify-content:space-between;
+	width:24rem; height:6rem; padding:0 2.8rem; margin-top:4.6rem;
+	border-radius:3rem; overflow:hidden; box-sizing:border-box;
+}
+.cm-btn:before{
+	position:absolute; content:''; inset:0; border:2px solid var(--navy);
+	border-radius:3rem; box-sizing:border-box;
+}
+.cm-btn .txt{
+	position:relative; z-index:1; font-family:var(--font-en);
+	font-size:1.7rem; font-weight:600; letter-spacing:0.01em; color:var(--navy);
+	transition:var(--transition-custom);
+}
+.cm-btn .icon{
+	position:absolute; top:50%; right:2rem; z-index:0; width:1.2rem; height:1.2rem;
+	border-radius:50%; background-color:var(--navy); transform:translateY(-50%);
+	transition:var(--transition-custom);
+}
+.cm-btn .hover-icon{
+	position:absolute; top:50%; right:2rem; z-index:1; width:1.2rem; height:1.2rem;
+	border-radius:50%; background-color:#fff; transform:translateY(-50%);
+	opacity:0; transition:var(--transition-custom);
+}
+.cm-btn:hover .txt{color:#fff}
+.cm-btn:hover .icon{width:56rem; height:56rem; right:-26rem}
+.cm-btn:hover .hover-icon{opacity:1}
+/* 버튼 : 다크배경용 */
+.cm-btn.white-ver:before{border-color:rgba(255,255,255,0.55)}
+.cm-btn.white-ver .txt{color:#fff}
+.cm-btn.white-ver .icon{background-color:#fff}
+.cm-btn.white-ver .hover-icon{background-color:var(--navy)}
+.cm-btn.white-ver:hover .txt{color:var(--navy)}
+
+/* ---------- 스크롤 진입 모션 (JS 없으면 처음부터 보이도록 게이팅) ---------- */
+.js-scroll [data-scroll]{opacity:0; transition:var(--transition-custom2); transition-property:opacity,transform; will-change:opacity,transform}
+.js-scroll [data-scroll="fade-up"]{transform:translate3d(0,4rem,0)}
+.js-scroll [data-scroll="fade-right"]{transform:translate3d(-4rem,0,0)}
+.js-scroll [data-scroll="fade-left"]{transform:translate3d(4rem,0,0)}
+.js-scroll [data-scroll].animated{opacity:1; transform:none}
+
+/* ========================================================
+ * 인쇄 / 모션 최소화 — 콘텐츠는 항상 보이도록
+======================================================== */
+@media print{
+	.js-scroll [data-scroll],
+	.js-scroll .stats-list > li,
+	.js-scroll .stats-since{opacity:1 !important; transform:none !important}
+	.js-scroll .about-copy .line{color:var(--navy) !important; background:none !important; -webkit-text-fill-color:currentColor}
+	.js-scroll .qa-step-list > li:before,
+	.js-scroll .qa-flow-list > li:before{width:100% !important}
+	.main-visual-item{opacity:1 !important; visibility:visible !important; position:relative !important}
+	.main-visual-util,.go-top-btn,.sitemap-btn,.sub-lnb{display:none !important}
+}
+@media (prefers-reduced-motion:reduce){
+	*,*:before,*:after{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important}
+	.js-scroll [data-scroll],
+	.js-scroll .stats-list > li,
+	.js-scroll .stats-since{opacity:1; transform:none}
+	.js-scroll .about-copy .line{color:var(--navy); background:none}
+	.js-scroll .qa-step-list > li:before,
+	.js-scroll .qa-flow-list > li:before{width:100%}
+}
