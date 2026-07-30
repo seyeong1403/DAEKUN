@@ -1,0 +1,16 @@
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+*.log
+*.zip
+*.tar.gz
+*.rar
+node_modules/
+.env
+vendor/
+writable/cache/*
+writable/logs/*
+writable/debugbar/*
