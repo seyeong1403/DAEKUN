@@ -1,0 +1,20 @@
+# 이 폴더에는 문의 내용(개인정보)이 들어 있다. 웹에서 절대 열리면 안 된다.
+<IfModule mod_authz_core.c>
+	Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+	Order allow,deny
+	Deny from all
+</IfModule>
+
+# PHP 실행도 막는다.
+<FilesMatch "\.(php|phtml|phar|cgi|pl|py|sh)$">
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+		Deny from all
+	</IfModule>
+</FilesMatch>
+php_flag engine off
