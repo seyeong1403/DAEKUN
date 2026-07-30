@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  주소가 daekunms.co.kr 이 아니라면 아래 도메인을 전부 바꿔야 한다.
+  (og:url · og:image 도 같은 도메인을 쓰고 있으므로 함께 맞춘다)
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url><loc>https://daekunms.co.kr/</loc><priority>1.0</priority><changefreq>monthly</changefreq></url>
+
+  <url><loc>https://daekunms.co.kr/about/overview.html</loc><priority>0.9</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://daekunms.co.kr/about/history.html</loc><priority>0.7</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://daekunms.co.kr/about/organization.html</loc><priority>0.7</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://daekunms.co.kr/about/customers.html</loc><priority>0.8</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://daekunms.co.kr/about/location.html</loc><priority>0.7</priority><changefreq>yearly</changefreq></url>
+
+  <url><loc>https://daekunms.co.kr/business/sourcing.html</loc><priority>0.9</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://daekunms.co.kr/business/network.html</loc><priority>0.9</priority><changefreq>yearly</changefreq></url>
+
+  <url><loc>https://daekunms.co.kr/products/activewear.html</loc><priority>0.9</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://daekunms.co.kr/products/sweaters.html</loc><priority>0.8</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://daekunms.co.kr/products/woven.html</loc><priority>0.8</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://daekunms.co.kr/products/swimwear.html</loc><priority>0.8</priority><changefreq>yearly</changefreq></url>
+
+  <url><loc>https://daekunms.co.kr/quality/assurance.html</loc><priority>0.8</priority><changefreq>yearly</changefreq></url>
+
+  <!-- news/index.html 은 notice.html 로 넘기는 페이지이므로 넣지 않는다 -->
+  <url><loc>https://daekunms.co.kr/news/notice.html</loc><priority>0.6</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://daekunms.co.kr/news/archive.html</loc><priority>0.5</priority><changefreq>weekly</changefreq></url>
+
+  <url><loc>https://daekunms.co.kr/contact/inquiry.html</loc><priority>0.9</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://daekunms.co.kr/contact/global.html</loc><priority>0.7</priority><changefreq>yearly</changefreq></url>
+
+  <url><loc>https://daekunms.co.kr/etc/privacy.html</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://daekunms.co.kr/etc/agreement.html</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
+
+</urlset>

@@ -97,8 +97,6 @@ function New-Page($title, $desc, $lnbOn, $bodyHtml, $visualText) {
 <meta property="og:description" content="$(Enc $desc)">
 <meta property="og:image" content="https://daekunms.co.kr/images/common/logo_navy.png">
 <meta name="theme-color" content="#131C3B">
-<!-- 임시 검토용 배포 : 검색엔진 색인 차단. 정식 오픈 시 이 줄과 robots.txt 를 제거한다 -->
-<meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../css/layout.css">
 <link rel="stylesheet" href="../css/common.css">

@@ -178,9 +178,10 @@ views.dash = async function () {
 			: '<p class="empty-msg">아직 접수된 문의가 없습니다.</p>';
 
 		const checks = [
-			['검색엔진 색인이 차단(noindex)되어 있습니다. 정식 오픈 때 해제해야 합니다.', false],
+			['검색엔진 색인 차단(noindex)을 해제했습니다. 검색에 노출됩니다.', true],
 			['약관 · 개인정보처리방침의 [ 대괄호 ] 자리를 채워야 합니다.', false],
-			['문의 폼이 실제 서버에 연결되어 있지 않습니다. (현재는 메일 안내로 대체)', false]
+			['문의 폼이 실제 서버에 연결되어 있지 않습니다. (현재는 메일 안내로 대체)', false],
+			['주소가 daekunms.co.kr 이 아니면 sitemap.xml · og:url 의 도메인을 바꿔야 합니다.', false]
 		];
 		$('#dashCheck').innerHTML = checks.map(c => `<li class="${c[1] ? 'ok' : ''}">${esc(c[0])}</li>`).join('');
 	} catch (e) { fail(e); }
