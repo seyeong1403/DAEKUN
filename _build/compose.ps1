@@ -71,7 +71,9 @@ foreach ($f in $fragments) {
 <meta property="og:title" content="$titleFull">
 <meta property="og:description" content="$($meta.desc)">
 <meta property="og:image" content="https://daekunms.co.kr/images/common/logo_navy.png">
+<meta property="og:url" content="https://daekunms.co.kr/$($meta.out)">
 <meta name="theme-color" content="#131C3B">
+<link rel="canonical" href="https://daekunms.co.kr/$($meta.out)">
 <link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../css/layout.css">
 <link rel="stylesheet" href="../css/common.css">

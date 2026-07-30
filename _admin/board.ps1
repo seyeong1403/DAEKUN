@@ -74,7 +74,7 @@ function Format-Size($n) {
 function Enc($s) { return [System.Web.HttpUtility]::HtmlEncode([string]$s) }
 
 # ---------- 페이지 셸 ----------
-function New-Page($title, $desc, $lnbOn, $bodyHtml, $visualText) {
+function New-Page($title, $desc, $lnbOn, $bodyHtml, $visualText, $rel) {
 	if (-not $visualText) { $visualText = $desc }
 	$titleFull = "$title | 대건엠에스 DAEKUN MS"
 	$lnb = ($BOARDS | ForEach-Object {
@@ -96,7 +96,9 @@ function New-Page($title, $desc, $lnbOn, $bodyHtml, $visualText) {
 <meta property="og:title" content="$titleFull">
 <meta property="og:description" content="$(Enc $desc)">
 <meta property="og:image" content="https://daekunms.co.kr/images/common/logo_navy.png">
+<meta property="og:url" content="https://daekunms.co.kr/$rel">
 <meta name="theme-color" content="#131C3B">
+<link rel="canonical" href="https://daekunms.co.kr/$rel">
 <link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../css/layout.css">
 <link rel="stylesheet" href="../css/common.css">
@@ -214,7 +216,7 @@ $listHtml
 			</div>
 		</section>
 "@
-	Save-Page ('news/' + $b.file) (New-Page $b.name $b.desc $b.key $body)
+	Save-Page ('news/' + $b.file) (New-Page $b.name $b.desc $b.key $body $null ('news/' + $b.file))
 	$made++
 
 	# ---- 상세 ----
@@ -278,7 +280,7 @@ $navHtml
 			</div>
 		</section>
 "@
-		Save-Page ("news/view-$($p.id).html") (New-Page $p.title (Get-Summary $p.content) $b.key $body $b.desc)
+		Save-Page ("news/view-$($p.id).html") (New-Page $p.title (Get-Summary $p.content) $b.key $body $b.desc ("news/view-$($p.id).html"))
 		$made++
 	}
 }
